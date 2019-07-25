@@ -9,9 +9,9 @@
                 <span></span>
             </div>
             <div class="title_center">
-                <img src="~@/assets/mfsy.png" alt="">
+                <!-- <img src="~@/assets/mfsy.png" alt=""> -->
                 <div class="flex_grow_1" style="padding-left:0.2rem;letter-spacing: 0.1rem;">
-                    <p style="font-weight:bold;">智者汇</p>
+                    <p style="font-weight:bold;">彩票工具市场</p>
                     <p style="font-weight:bold;">方案计划</p>
                 </div>
                 <div style="font-weight:bold;letter-spacing: 0.1rem;">快速上岸</div>

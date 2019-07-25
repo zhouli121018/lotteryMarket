@@ -2,19 +2,18 @@
     <div class="container">
         <title-bar title_name="新用户注册" />
         <div class="van_box">
-            <van-field label="手机号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入手机号" />
+            <van-field label="账号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入您的账号" />
         </div>
         <div class="van_box">
-            <van-field label="密码" type="number" maxlength="11" clearable v-model="password" placeholder="需6位数字密码" />
+            <van-field label="密码" type="number" maxlength="11" clearable v-model="password" placeholder="请输入您的密码" />
         </div>
         <div class="van_box">
-            <van-field label="验证码" maxlength="11" type="number" class="van_field" clearable v-model="vcode" placeholder="请输入验证码" />
-            <CutDown @click="codeVerify" :disabled="disabled" :mobile="phone" ref="codeEl"></CutDown>
+            <van-field label="邮箱" maxlength="11" type="number" class="van_field" clearable v-model="vcode" placeholder="找回密码用" />
         </div>
         <div class="van_box">
             <van-field label="邀请码" maxlength="11" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
         </div>
-        <van-button style="background:#FC7953;color:#fff" @click="regist">注册</van-button>
+        <van-button style="background:#3996FF;color:#fff" @click="regist">注册</van-button>
     </div>
 </template>
 
@@ -154,7 +153,7 @@ export default {
     width 76%
 .van_field_code
     /deep/ .van-field__control::-webkit-input-placeholder {
-        color: #FC8D6D
+        color: #3996FF
     }
 button 
     width 90%

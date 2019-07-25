@@ -55,7 +55,7 @@
         </div>
         <div class="xian"></div>
         <div>
-            <van-cell title="关于智者汇" is-link icon="about"  @click="jumpTo('/personal/about')"/>
+            <van-cell title="关于彩票工具市场" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 
         <div class="xian"></div>

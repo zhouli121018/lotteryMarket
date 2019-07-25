@@ -55,17 +55,17 @@
 
 <style lang='stylus'>
   .title_box{
-    background:red;
-    color:#fff;
-    background:url(../../assets/title.png);
-    background-size: 100%;
+    background:#EBEBED;
   }
   .title_box .van-ellipsis.van-nav-bar__title{
     font-size:18px;
-    color:#fff;
+    color:#373737;
   }
   .title_box.van-nav-bar .van-icon, .title_box .van-nav-bar__text{
-    color:#fff;
+    color:#555555;
+  }
+  .van-nav-bar__arrow{
+    font-size: 22px
   }
   .fixed_title{
     position: fixed;

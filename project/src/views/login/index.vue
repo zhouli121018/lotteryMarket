@@ -1,15 +1,15 @@
 <template>
     <div class="container">
-        <title-bar title_name="密码登录" right_text="注册" right_url="/register/index"/>
+        <title-bar title_name="密码登录"/>
         <div class="van_box">
-            <van-field label="手机号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入手机号" />
+            <van-field label="账号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入账号" />
         </div>
         <div class="van_box">
             <van-field label="密码" maxlength="11" type="number" class="van_field" clearable v-model="code" placeholder="请输入密码" />
             <!-- <CutDown @click="codeVerify" :disabled="disabled" :moble="mobile"></CutDown> -->
         </div>
-        <router-link tag="div" to="/login/verification" class="van_box_right">验证码登录</router-link>
-        <van-button  style="background:#FC7953;color:#fff"  @click="loginbypass">登录</van-button>
+        <router-link tag="div" to="/login/verification" class="van_box_right">忘记密码</router-link>
+        <van-button  style="background:#3996FF;color:#fff"  @click="loginbypass">登录</van-button>
         <router-link tag="div" to="/register/index" class="van_box_right">注册</router-link>
     </div>
 </template>

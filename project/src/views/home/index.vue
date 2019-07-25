@@ -4,16 +4,10 @@
       <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
         <div class="fixed_title">
           <van-nav-bar
-            title="智者汇计划"
-            :left-text="left_text"
-            right-text="关于"
-            @click-left="onClickLeft"
+            title="彩票工具市场"
             @click-right="onClickRight"
           >
-            <span slot="title" @click="gethome">智者汇计划
-              <!-- <van-icon name="replay" /> -->
-            </span>
-            
+            <van-icon name="search" slot="right"/>
           </van-nav-bar>
         </div>
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
@@ -24,7 +18,11 @@
           </van-swipe-item>
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
-        
+        <van-notice-bar
+          color="#6A6A6A"
+          text="上传彩票分析、计划软件有奖励，第三方南大街女的女"
+          left-icon="volume-o"
+        />
         <van-row :gutter="30" class="list_box text_center">
           <van-col span="6" style="width:23%;padding-left:0;padding-right:0" v-for="(l,index) in list" :key="index">
             <div class="item_box"  @click="jumpTo(l.link,l.islink)">
@@ -33,8 +31,33 @@
             </div>
           </van-col>
         </van-row>
-
-
+        <div class="xian"></div>
+        <van-tabs v-model="active" color="#3996FF" title-active-color="#3996FF">
+          <van-tab v-for="(item,i) in titleList" :key="i" :title="item">
+            <div class="assistant_list">
+              <img src="../../assets/chart.png" alt="">
+              <div>
+                <p>彩票预测大师</p>
+                <div>
+                  <van-rate :size="14" v-model="value" /> 安装(1111)
+                </div>
+                <p>杀号胆码助手</p>
+              </div>
+              <van-button size="small" plain type="primary">安装</van-button>
+            </div>
+            <div class="assistant_list">
+              <img src="../../assets/chart.png" alt="">
+              <div>
+                <p>彩票预测大师</p>
+                <div>
+                  <van-rate :size="14" v-model="value" /> 安装(1111)
+                </div>
+                <p>杀号胆码助手</p>
+              </div>
+              <van-button size="small" plain type="primary">安装</van-button>
+            </div>
+          </van-tab>
+        </van-tabs>
       <!-- </van-pull-refresh> -->
 
     </div>
@@ -44,11 +67,11 @@
         <div style="background:#EFEFEF;padding:0.2rem 0.15rem;margin:0 0.3rem 0.2rem;">
             <div style="text-align:center;font-size:0.5rem;color:#DB3030;font-weight:bold;padding:0.2rem 0;">温馨提示</div>
             <div style="line-height:1.6;padding-left:0.2rem;font-size:0.4rem;">
-              请务必添加本页面到主屏幕，以便下次访问。
+              请务必添加本页面到主屏幕，以便下次访问，点击“已添加”不再提醒
             </div>
             <div style="text-align:center;padding:0.4rem 0;">
-              <van-button style="width:3rem;background-color:#D4D4D4;color:#1A1A1A;font-size:0.45rem;" @click="addfn">已添加</van-button>
-              <van-button style="width:3rem;margin-left:1rem;background-color:#DB3030;color:#fff;font-size:0.45rem;" @click="ignore">关闭</van-button>
+              <van-button style="width:3rem;height: 1.2rem;line-height: 1.2rem;background-color:#D4D4D4;color:#1A1A1A;font-size:0.45rem;" @click="addfn">已添加</van-button>
+              <van-button style="width:3rem;height: 1.2rem;line-height: 1.2rem;margin-left:1rem;background-color:#3996FF;color:#fff;font-size:0.45rem;" @click="ignore">关闭</van-button>
             </div>
         </div>
         <img src="../../assets/down_iphone.png" alt="" style="width:100%">
@@ -68,24 +91,25 @@ export default {
     return {
 
       list:[
-        {src:require('../../assets/mfsy.png'),title:'免费使用',link:'/personal/freeUse',islink: false},
-        // {src:require('../../assets/fajh.png'),title:'方案计划',link:'/home/aPlan',islink: false},
-        {src:require('../../assets/kjtx.png'),title:'开奖提醒',link:'/home/openRemind',islink: false},
-        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true},
-        
-        {src:require('../../assets/dlzq.png'),title:'推荐赚钱',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true}
+        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/freeUse',islink: false},
+        {src:require('../../assets/upload.png'),title:'上传应用',link:'/home/openRemind',islink: false},
+        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true}
         
       ],
+      value: 3,
       notice:'',
       advs:[],
-      left_text:'登录',
-      left_path:'/login/index',
+      // left_text:'登录',
+      // left_path:'/login/index',
       banner_url:'#',
       is_ios:false,
       isFirstEnter:false,
       fangansList:null,
       notices:[],
-      isLoading:false
+      isLoading:false,
+      active: 0,
+      titleList: ["低彩频助手","高彩频助手","足彩助手"]
     }
   },
   methods: {
@@ -104,9 +128,6 @@ export default {
     },
     ignore(){
       this.is_ios = false;
-    },
-    onClickLeft() {
-      this.$router.push(this.left_path)
     },
     onClickRight(){
       this.$router.push('/personal/about')
@@ -209,7 +230,47 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
+/deep/ .van-tabs--line .van-tabs__wrap
+  border-bottom 1px solid #D8D8D8
+.assistant_list
+  width 100%
+  padding .35rem
+  box-sizing border-box
+  display flex
+  align-items center
+  margin-top .1rem
+  border-bottom 1px solid #D8D8D8
+  img
+    width 1.5rem
+    height 1.5rem
+    margin-right .2rem
+  >div
+    width 65%
+    >div
+      width 100%
+      display flex
+      padding .2rem 0
+      color #ABABAB
+      font-size 12px
+    p:last-child
+      font-size 12px
+      color #ABABAB
+/deep/ .van-button--plain.van-button--primary
+  color #3996FF
+  border: 1px solid #3996FF;
+/deep/ .van-icon-volume-o:before
+  content: ''
+  width .5rem
+  height .42rem
+  background url('../../assets/icn_message.png') no-repeat
+  background-size contain
+#home_page .van-nav-bar
+  background-color #EBEBED
+#home_page .van-nav-bar .van-icon
+  color: #373737
+#home_page .van-nav-bar__right
+  bottom: 2px
+  font-size 20px
 .van-cell:not(:last-child)::after{
   content:"";
   border:none;
@@ -236,10 +297,6 @@ export default {
   color:#6C6361;
   font-size:0.3rem;
 }
-.van-cell .van-cell__title span{
-  /* font-size:0.4rem; */
-  color:#7D7D7D;
-}
 .van-cell__value span{
   font-size:0.3rem;
 }
@@ -252,13 +309,8 @@ export default {
   padding: 10px 15px;
 }
 .left_border_ori{
-  /* border-left:0.1rem solid #FC7953; */
   display:inline-block;
-  /* padding:0; */
-  /* padding-left:0.2rem; */
-  /* font-size:0.4rem; */
-  /* color:#7D7D7D; */
-  background:#FC7953;
+  background:#3996FF;
   width:0.08rem;
   height:0.4rem;
   position:relative;
@@ -291,15 +343,6 @@ export default {
   .text_center{
     text-align:center;
   }
-  /* #home_page .van-nav-bar__title{ */
-    /* font-size:0.5rem; */
-  /* } */
-  #home_page .van-nav-bar__left .van-nav-bar__text{
-    color:#FC8463;
-  }
-  #home_page .van-nav-bar__right .van-nav-bar__text{
-    color:#2C2C2C;
-  }
   .swipe_img_box{
     width:100%;
     padding:0 12px;
@@ -324,6 +367,9 @@ export default {
     padding:0;
     background:none !important;
   }
+  /deep/ .van-notice-bar
+    border-bottom 1px solid #CFCFCF !important
+    margin-top .2rem
   .gonggao_img{
     width:20px;
     height:16px;

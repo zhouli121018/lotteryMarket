@@ -79,17 +79,17 @@ export default {
   width: 1.5rem;
 }
 .orange_btn{
-  background:#FC7953;
+  background:#3996FF;
   color:#fff;
 }
 .left_border_ori{
-  /* border-left:0.1rem solid #FC7953; */
+  /* border-left:0.1rem solid #3996FF; */
   display:inline-block;
   /* padding:0; */
   /* padding-left:0.2rem; */
   /* font-size:0.4rem; */
   /* color:#7D7D7D; */
-  background:#FC7953;
+  background:#3996FF;
   width:0.08rem;
   height:0.4rem;
   position:relative;

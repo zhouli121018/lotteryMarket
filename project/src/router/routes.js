@@ -23,7 +23,7 @@ export default [
                 name:'home',
                 component: _import('home/index'),
                 meta:{
-                    title:'智者汇计划',
+                    title:'彩票工具市场计划',
                     cache: true
                 }
             },
@@ -89,7 +89,7 @@ export default [
                 name:'about',
                 component: _import('personal/about'),
                 meta:{
-                    title:'关于智者汇',
+                    title:'关于彩票工具市场',
                     cache: false
                 }
             }
