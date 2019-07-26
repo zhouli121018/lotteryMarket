@@ -1,72 +1,32 @@
 <template>
     <div class="container">
-        <title-bar title_name="用户中心" />
-        <div class="my_title" v-if="info != null">
-            <img class="my_title_photo" :src="$https_img+info.img" alt="">
-            <div class="my_title_center">
+        <title-bar title_name="我的账号" />
+        <div class="myAccount_title">
+            <div>
                 <div>
-                    <span style="font-weight:bold;font-size:0.45rem;color:#232323;">{{info.uname}}</span>
+                    <p>账号: 0290</p>
+                    <p>金额: 978元</p>
                 </div>
-                <div class="goldcoins_fans">
-                    <!-- <p><span>金币: </span><span class="red">{{info.coin}}</span></p>
-                    <p><span>粉丝: </span><span class="red">{{info.fans}}</span></p> -->
-                    <!-- $isvip='1';//是否VIP 1是vip，0不是vip -->
-                    <img v-if="info.isvip == 1" class="my_title_center_img" src="~@/assets/vip.png" alt="">
-                    <img v-else class="my_title_center_img" src="~@/assets/vip-gary.png" alt="">
-                    <span v-if="info.isvip == 1" class="red">(剩余{{info.vipdate}}天)</span>
-                    <span v-else class="red">(非会员)</span>
-                </div>
+                <van-button type="primary" style="" size="small" @click="show=true">提款</van-button>
             </div>
-            <van-button v-if="info.isvip == 0" class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">开通会员</van-button>
-            <van-button v-else class="orange_btn" round @click="jumpTo('/home/openingMember')" style="white-space:nowrap;">会员续费</van-button>
-        </div>
-        <div class="my_title_box">
-            <div class="my_title" style="border:none;width:47.5%" v-if="info">
-                <img class="my_title_photo title_photo" src="~@/assets/icon.png" alt="">
-                <div class="my_title_center my_centers">
-                    <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{info.income_cur}}元</b>
-                    </p>
-                    <p class="goldcoins_fans">
-                        佣金金额
-                    </p>
-                </div>
-                <van-button type="danger" size="small" @click="show = true" >返佣提款</van-button>
-            </div>
-            <div class="my_title" style="border:none;width:51%" v-if="info">
-                <img class="my_title_photo title_photo" src="~@/assets/ticketnum.png" alt="">
-                <div class="my_title_center my_centers">
-                    <p>
-                        <b style="font-size:0.5rem;font-weight:bold;">{{ticketnum}}张</b>
-                    </p>
-                    <p class="goldcoins_fans">
-                        会员券数量
-                    </p>
-                </div>
-                <van-button type="danger" size="small" @click="isShow = true" >兑换会员</van-button>
-            </div>
-        </div>
-        <!-- <div class="xian"></div>         -->
-        <div>
-            <van-cell title="我的推荐页" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
-            <van-cell title="推荐赚钱" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
-            <van-cell title="开奖提醒设置" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
-            <van-cell title="免费使用" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
+            <p>提示: 提交app审核通过得5元，邀请一个用户注册得0.5元</p>
         </div>
         <div class="xian"></div>
         <div>
-            <van-cell title="关于彩票工具市场" is-link icon="about"  @click="jumpTo('/personal/about')"/>
+            <van-cell title="应用审核列表" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
+            <van-cell title="上传应用" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
+            <van-cell title="收入明细" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
+            <van-cell title="推荐有奖" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
-
-        <div class="xian"></div>
 
         <div class="text_center">
-            <van-button @click="logout" type="danger" size="small" style="width:30%">退出账号</van-button>
+            <van-button style="background:#3996FF;color:#fff" size="large" @click="logout">退出</van-button>
         </div>
 
         <van-dialog 
             v-model="show"
-            title="提款提示"
+            title="提款"
             show-cancel-button
             class="dialog_content_input"
             :before-close="beforeClose_tk"
@@ -182,11 +142,34 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+/deep/ .van-button--primary
+  color #fff
+  background-color #3996FF
+  border none
+.myAccount_title
+    width 94%
+    margin 0 auto 
+    padding .2rem 
+    box-sizing border-box
+    >div
+        width 100%
+        display flex
+        justify-content space-between
+        align-items center
+        p 
+            padding .18rem 0
+    >p 
+        color #666
+        font-size 12px
+        margin-top .2rem
 .text_center
-    padding .2rem
+    width 90%
+    box-sizing border-box
     text-align center
+    margin-top .3rem
+    margin .5rem auto 0 auto
 .container
-    background #F5F5F5
+    background #fff
 .my_centers
     width 60%!important
     p 
@@ -195,7 +178,7 @@ export default {
             color #666
             font-size .35rem
 /deep/ .van-cell
-    line-height .88rem
+    padding 16px 15px
 /deep/ .van-icon-tj::before
     content ''
     width .88rem
@@ -226,66 +209,6 @@ export default {
     height .88rem
     background url('~@/assets/about_zzh.png') no-repeat
     background-size contain
-.my_title
-    width: 100%
-    padding .2rem 
-    box-sizing border-box 
-    display flex
-    align-items center
-    border-bottom 1px solid #f0f0f0
-    background #fff
-    margin-top:-.1rem
-    .my_title_center
-        width 53%
-        span 
-            line-height .5rem
-            padding-right .1rem
-    .my_title_photo
-        width 1.5rem
-        height 1.5rem
-        border-radius 50%
-        margin-right .1rem
-    .goldcoins_fans
-        display flex
-        padding-top .1rem
-        align-items center
-        span 
-            font-size .26rem
-        p
-            padding-right .3rem
-    .my_title_center_img
-        width .8rem
-        height .7rem
-        margin 0 .2rem 0 0
-.orange_btn
-    border-radius .6rem
-    background #FFC131
-    color #FF3858
-    height 1rem
-    line-height 1rem
-    padding 0 .3rem
-    font-size 0.36rem
-.title_photo
-    width .77rem!important
-    height .77rem!important
-.my_title_box
-    width 100%
-    background #eee
-    padding .4rem 0
-    box-sizing border-box
-    display flex
-    justify-content space-between
-    align-items center
-    .my_title
-        width 49%
-        padding .3rem .1rem
-        .my_centers
-            width 45%!important
-    /deep/ .van-button--small {
-        padding: 0 6px;
-        height: 25px;
-        min-width: 45px;
-        font-size: 13px;
-        line-height: 20px;
-    }
+/deep/ .van-cell:not(:last-child)::after
+    border-bottom 1px solid #CECECE;
 </style>

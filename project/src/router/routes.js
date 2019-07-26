@@ -23,7 +23,7 @@ export default [
                 name:'home',
                 component: _import('home/index'),
                 meta:{
-                    title:'彩票工具市场计划',
+                    title:'彩票工具市场',
                     cache: true
                 }
             },
@@ -75,12 +75,57 @@ export default [
                     cache: true
                 }
             },
+            {//排行榜
+                path: 'listUse',
+                name: 'listUse',
+                component: _import('personal/listUse'),
+                meta: {
+                    title: '排行榜',
+                    cache: true
+                }
+            },
+            {//收入明细
+                path: 'incomeDetails',
+                name: 'incomeDetails',
+                component: _import('personal/incomeDetails'),
+                meta: {
+                    title: '收入明细',
+                    cache: true
+                }
+            },
+            {//搜索
+                path: 'search',
+                name: 'search',
+                component: _import('personal/search'),
+                meta: {
+                    title: '搜索',
+                    cache: true
+                }
+            },
             {//我的推荐页
                 path: 'recommend',
                 name:'recommend',
                 component: _import('personal/recommend'),
                 meta:{
                     title:'我的推荐页',
+                    cache: false
+                }
+            },
+            {//应用上传
+                path: 'applicationUpload',
+                name: 'applicationUpload',
+                component: _import('personal/applicationUpload'),
+                meta: {
+                    title: '应用上传',
+                    cache: false
+                }
+            },
+            {//应用审核列表
+                path: 'applicationList',
+                name: 'applicationList',
+                component: _import('personal/applicationList'),
+                meta: {
+                    title: '应用上传列表',
                     cache: false
                 }
             },

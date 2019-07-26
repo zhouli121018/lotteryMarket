@@ -31,7 +31,9 @@ import {
     PullRefresh,
     NoticeBar,
     Dialog,
-    Rate 
+    Rate,
+    Search,
+    Picker
 } from 'vant'
 import wx from 'weixin-js-sdk'
 import { VueSpinners } from '@saeris/vue-spinners'
@@ -83,6 +85,8 @@ Vue
     .use(NoticeBar)
     .use(Dialog)
     .use(Rate)
+    .use(Search)
+    .use(Picker)
 Vue.prototype.$wx = wx
 new Vue({
     store,

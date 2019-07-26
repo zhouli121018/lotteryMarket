@@ -168,4 +168,6 @@ textarea:disabled{
 img{
   vertical-align :middle;
 }
+.van-uploader__upload
+  border: 1px dashed #e5e5e5;
 </style>

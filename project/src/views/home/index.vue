@@ -91,17 +91,16 @@ export default {
     return {
 
       list:[
-        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/freeUse',islink: false},
+        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/listUse',islink: false},
         {src:require('../../assets/upload.png'),title:'上传应用',link:'/home/openRemind',islink: false},
-        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/home/earnMoney',islink: localStorage.getItem('uid')?false:true},
+        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/personal/index'},
+        // ,islink: localStorage.getItem('uid')?false:true
         {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true}
         
       ],
       value: 3,
       notice:'',
       advs:[],
-      // left_text:'登录',
-      // left_path:'/login/index',
       banner_url:'#',
       is_ios:false,
       isFirstEnter:false,
@@ -133,23 +132,25 @@ export default {
       this.$router.push('/personal/about')
     },
     jumpTo( path, islink ){
-      if(path.indexOf('/')==0){
-        if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
-          this.$router.push({
-            path:path,
-            query:{
-              lottype:localStorage.getItem('_lottype')
-            }
-          })
-          return;
-        }
-        this.$router.push(path)
-      }else{
-        this.banner_url = path;
-        this.$nextTick(()=>{
-          document.getElementById('banner_a').click();
-        })
-      }
+      console.log(path)
+      this.$router.push(path)
+      // if(path.indexOf('/')==0){
+      //   if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
+      //     this.$router.push({
+      //       path:path,
+      //       query:{
+      //         lottype:localStorage.getItem('_lottype')
+      //       }
+      //     })
+      //     return;
+      //   }
+      //   this.$router.push(path)
+      // }else{
+      //   this.banner_url = path;
+      //   this.$nextTick(()=>{
+      //     document.getElementById('banner_a').click();
+      //   })
+      // }
     },
     async gethome() {
       let obj = {};
@@ -194,7 +195,7 @@ export default {
     }
     
     if(localStorage['uid'] && localStorage['uid']!=''){
-      this.left_text = '会员中心';
+      this.left_text = '我的账号';
       this.left_path = '/personal/index'
     }
     document.addEventListener("visibilitychange", () => {
@@ -216,7 +217,7 @@ export default {
     this.$store.dispatch('set_isback',false)
     
     if(localStorage['uid'] && localStorage['uid']!=''){
-      this.left_text = '会员中心';
+      this.left_text = '我的账号';
       this.left_path = '/personal/index'
     }
   },
@@ -230,31 +231,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-/deep/ .van-tabs--line .van-tabs__wrap
-  border-bottom 1px solid #D8D8D8
-.assistant_list
-  width 100%
-  padding .35rem
-  box-sizing border-box
-  display flex
-  align-items center
-  margin-top .1rem
-  border-bottom 1px solid #D8D8D8
-  img
-    width 1.5rem
-    height 1.5rem
-    margin-right .2rem
-  >div
-    width 65%
-    >div
-      width 100%
-      display flex
-      padding .2rem 0
-      color #ABABAB
-      font-size 12px
-    p:last-child
-      font-size 12px
-      color #ABABAB
 /deep/ .van-button--plain.van-button--primary
   color #3996FF
   border: 1px solid #3996FF;
