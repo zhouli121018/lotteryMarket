@@ -13,7 +13,7 @@
         </div>
         <div class="xian"></div>
         <div>
-            <van-cell title="应用审核列表" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
+            <van-cell title="应用审核列表" is-link icon="tj" @click="jumpTo('/personal/applicationList')"/>
             <van-cell title="上传应用" is-link icon="dlzq"  @click="jumpTo('/personal/applicationUpload')"/>
             <van-cell title="收入明细" is-link icon="kjtx"  @click="jumpTo('/personal/incomeDetails')"/>
             <van-cell title="推荐有奖" is-link icon="free"  @click="jumpTo('/personal/recommend')"/>

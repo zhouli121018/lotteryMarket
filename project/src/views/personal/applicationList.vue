@@ -1,19 +1,19 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="info">
         <title-bar title_name="应用上传列表" />
-        <p class="one">总共提交应用 : 193个</p>
-        <p>审核通过 : 193个</p>
-        <p>审核不通过 : 193个</p>
+        <p class="one">总共提交应用 : {{info.uploanum}}个</p>
+        <p>审核通过 : {{info.passnum}}个</p>
+        <p>审核不通过 : {{info.nopassnum}}个</p>
         <div style="margin-top:.4rem">
             <van-row class="income_content">
                 <van-col span="8">应用名称</van-col>
                 <van-col span="8">提交日期</van-col>
                 <van-col span="8">审核状态</van-col>
             </van-row>
-            <van-row class="income_content income_contents">
-                <van-col span="8">彩票分析大师</van-col>
-                <van-col span="8">2019-07-26</van-col>
-                <van-col span="8">审核通过</van-col>
+            <van-row class="income_content income_contents" v-for="(item,index) in info.list" :key="index">
+                <van-col span="8">{{item.appname}}</van-col>
+                <van-col span="8">{{item.date}}</van-col>
+                <van-col span="8">{{item.status}}</van-col>
             </van-row>
         </div>
     </div>
@@ -24,7 +24,7 @@ import { getapprolist } from '@/api'
 export default {
     data() {
         return {
-
+            info: null
         }
     },
     methods: {
@@ -33,7 +33,6 @@ export default {
                 uid: localStorage.getItem('cp_uid'),
                 sid: localStorage.getItem('cp_sid')
             })
-            console.log(data)
             this.info = data
         }
     },

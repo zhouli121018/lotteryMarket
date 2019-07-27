@@ -32,17 +32,19 @@
             class="dialog_content_input"
             :before-close="beforeClose"
             >
-            <van-rate :size="20" v-model="value" />
+            <van-rate :size="20" v-model="star" />
         </van-dialog>
     </div>
 </template>
 
 <script>
+import { comments } from '@/api'
 export default {
     data() {
         return {
             value: 4,
-            isShow: false
+            isShow: false,
+            star: 0
         }
     },
     methods: {
@@ -52,14 +54,23 @@ export default {
         beforeClose(action,done){
             if(action == 'confirm'){
                 if(!this.alipay){
-                    this.$toast('请输入支付宝账号！')
+                    this.$toast('请评分！')
                     done(false)
                     return;
                 }
-                this.alipay = ''
+                this.comment()
             }
             done();
         },
+        async comment(){
+            const { data } = await comments({
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid'),
+                star: this.star,
+                appid: this.appid
+            })
+            this.$toast(data.message)
+        }
     }
 }
 </script>

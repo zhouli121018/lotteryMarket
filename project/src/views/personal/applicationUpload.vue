@@ -7,7 +7,7 @@
         </div>
         <div class="van_box">
             <van-field
-                value="请选择应用类型"
+                v-model="value"
                 label="应用类型 : "
                 @click="isShow"
                 type="text"
@@ -18,13 +18,13 @@
             <van-uploader v-model="fileList" :after-read="afterRead" :max-count="2"/>
         </div>
         <div class="van_box">
-            <van-field label="一句话描述 : " type="text" clearable v-model="phone" placeholder="请输入一句话描述" />
+            <van-field label="一句话描述 : " type="text" clearable v-model="appdesc" placeholder="请输入一句话描述" />
         </div>
         <div class="van_box">
-            <van-field label="下载链接 : " type="text" clearable v-model="phone" placeholder="请输入下载链接" />
+            <van-field label="下载链接 : " type="text" clearable v-model="downloadurl" placeholder="请输入下载链接" />
         </div>
         <div class="van_box">
-            <van-field label="简介 : " type="textarea" clearable v-model="phone" placeholder="请输入简介" />
+            <van-field label="简介 : " type="textarea" clearable v-model="overview" placeholder="请输入简介" />
         </div>
         <van-button style="background:#3996FF;color:#fff" @click="regist">提交审核</van-button>
         <van-popup v-model="show" position="bottom">
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { uploadimg, uploadapp } from '@/api'
+import md5 from 'js-md5';
 export default {
     data() {
         return {
@@ -47,12 +49,34 @@ export default {
             phone: '',
             show: false,
             fileList: [],
-            uploadtips: ''
+            uploadtips: '',
+            type: "",
+            appname: "",
+            appdesc: "",
+            iconurl: "",
+            downloadurl: "",
+            overview: "",
+            value: '请选择应用类型'
         }
     },
     methods: {
         //提交审核
-        regist() {},
+        async regist() {
+            if(!this.type || !this.appname || !this.appdesc || !this.iconurl || !this.downloadurl || !this.overview) {
+                this.$toast('请填写完整信息!')
+                return 
+            }
+            const { data } = await uploadapp({
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid'),
+                type: this.type,
+                appname: this.appname,
+                appdesc: this.appdesc,
+                iconurl: this.iconurl,
+                downloadurl: this.downloadurl,
+                overview: this.overview
+            })
+        },
         //上传图片
         async afterRead(file) {
             // 此时可以自行将文件上传至服务器
@@ -64,18 +88,20 @@ export default {
             formData.append('data',md5_data)
             formData.append('sid',localStorage.getItem('cp_sid'))
             formData.append('uid',localStorage.getItem('cp_uid'))
-            // const { data } = await submitpicture(formData)
-            // this.form.babyimg = data.url
+            const { data } = await uploadimg(formData)
+            this.iconurl = data.url
         },
         isShow() {
-            console.log('--------')
             this.show = true
         },
         onConfirm(value, index) {
-            this.$toast(`当前值：${value}, 当前索引：${index}`);
+            this.type = index
+            this.value = value
+            this.show = false
         },
         onCancel() {
          this.$toast('取消');
+         this.show = false
         }
     },
     mounted() {
@@ -106,8 +132,9 @@ button
 .orange
     color #FF5806
     font-size 14px
-    text-align center
-    padding .3rem 0
+    text-align left
+    padding .3rem
+    box-sizing border-box
 .van_box
     width 94%
     margin .1rem auto

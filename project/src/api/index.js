@@ -143,3 +143,51 @@ export function getincomelist(data) {
         }
     })
 }
+// 上传图片 
+export function uploadimg(data) {
+    return request({
+        url: '/uploadimg.php',
+        method: 'post',
+        data
+    })
+}
+// 上传应用内容 
+export function uploadapp(data) {
+    return request({
+        url: '/uploadapp.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 应用好评协议 
+export function comments(data) {
+    return request({
+        url: '/comment.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 应用投诉协议 
+export function complaint(data) {
+    return request({
+        url: '/complaint.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取应用详情协议 
+export function getappdesc(data) {
+    return request({
+        url: '/getappdesc.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
