@@ -2,11 +2,10 @@
     <div class="container">
         <title-bar title_name="搜索" />
         <van-search
-            v-model="value"
+            v-model="keyword"
             placeholder="请输入应用名称进行搜索"
             show-action
             shape="round"
-            @search="onSearch"
             background="#fff"
             clearable
             >
@@ -14,48 +13,64 @@
         </van-search>
         <div class="hot_search">
             <span>热搜应用: </span>
-            <span>计划</span>
-            <span>分析大师</span>
-            <span>快艇</span>
-            <span>时时彩</span>
+            <span @click="onSearchs(item)" v-for="(item,index) in hotlist" :key="index">{{item}}</span>
         </div>
-        <div class="assistant_list">
-            <img src="../../assets/chart.png" alt="">
+        <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index" v-if="lottypeList.length > 0">
+            <img :src="$https+dom.img" alt="">
             <div>
-            <p>彩票预测大师</p>
+            <p>{{dom.appname}}</p>
             <div>
-                <van-rate :size="14" v-model="values" /> 安装(1111)
+                <van-rate :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
             </div>
-            <p>杀号胆码助手</p>
+            <p>{{dom.appdese}}</p>
             </div>
-            <van-button size="small" plain type="primary">安装</van-button>
+            <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
         </div>
-        <div class="assistant_list">
-            <img src="../../assets/chart.png" alt="">
-            <div>
-            <p>彩票预测大师</p>
-            <div>
-                <van-rate :size="14" v-model="values" /> 安装(1111)
-            </div>
-            <p>杀号胆码助手</p>
-            </div>
-            <van-button size="small" plain type="primary">安装</van-button>
-        </div>
+        <div class="no_data">暂无数据</div>
     </div>
 </template>
 
 <script>
+import { clickinstall, getsearchlist } from '@/api'
 export default {
     data() {
         return {
-            value: '',
-            values: 5
+            lottypeList: [],
+            keyword: '',
+            hotlist: []
         }
     },
     methods: {
         onSearch() {
-
+            this.getsearchlist()
+        },
+        onSearchs(word) {
+            this.keyword = word
+            this.getsearchlist()
+        },
+        //点击安装
+        async clickAppurl(url,appid) {
+            const { data } = await clickinstall({
+                sid: localStorage.getItem('cp_sid'),
+                uid: localStorage.getItem('cp_uid'),
+                appid
+            })
+            setTimeout(() => {
+                window.location.href = url
+            },800)
+        },
+        async getsearchlist() {
+            const { data } = await getsearchlist({
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid'),
+                keyword: this.keyword
+            })
+            this.lottypeList = data.list
+            this.hotlist = data.hotlist
         }
+    },
+    mounted() {
+        this.getsearchlist()
     }
 }
 </script>

@@ -20,7 +20,7 @@
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
         <van-notice-bar
           color="#6A6A6A"
-          text="上传彩票分析、计划软件有奖励，第三方南大街女的女"
+          :text="regpiddes"
           left-icon="volume-o"
         />
         <van-row :gutter="30" class="list_box text_center">
@@ -32,29 +32,18 @@
           </van-col>
         </van-row>
         <div class="xian"></div>
-        <van-tabs v-model="active" color="#3996FF" title-active-color="#3996FF">
-          <van-tab v-for="(item,i) in titleList" :key="i" :title="item">
-            <div class="assistant_list">
-              <img src="../../assets/chart.png" alt="">
+        <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
+          <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
+            <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
+              <img :src="$https+dom.img" alt="">
               <div>
-                <p>彩票预测大师</p>
+                <p>{{dom.appname}}</p>
                 <div>
-                  <van-rate :size="14" v-model="value" /> 安装(1111)
+                  <van-rate :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
-                <p>杀号胆码助手</p>
+                <p>{{dom.appdese}}</p>
               </div>
-              <van-button size="small" plain type="primary">安装</van-button>
-            </div>
-            <div class="assistant_list">
-              <img src="../../assets/chart.png" alt="">
-              <div>
-                <p>彩票预测大师</p>
-                <div>
-                  <van-rate :size="14" v-model="value" /> 安装(1111)
-                </div>
-                <p>杀号胆码助手</p>
-              </div>
-              <van-button size="small" plain type="primary">安装</van-button>
+              <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
             </div>
           </van-tab>
         </van-tabs>
@@ -83,6 +72,7 @@
 <script>
 import { Dialog } from 'vant'
 import { gethome } from '@/api/home'
+import { gethomeapp, clickinstall } from '@/api'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
@@ -91,14 +81,12 @@ export default {
     return {
 
       list:[
-        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/listUse',islink: false},
-        {src:require('../../assets/upload.png'),title:'上传应用',link:'/home/openRemind',islink: false},
-        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/personal/index'},
-        // ,islink: localStorage.getItem('uid')?false:true
-        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: localStorage.getItem('uid')?false:true}
+        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/listUse',islink: localStorage.getItem('cp_uid')?false:true},
+        {src:require('../../assets/upload.png'),title:'上传应用',link:'/personal/applicationUpload',islink: false},
+        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/personal/index',islink: localStorage.getItem('cp_uid')?false:true},
+        {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: false}
         
       ],
-      value: 3,
       notice:'',
       advs:[],
       banner_url:'#',
@@ -108,11 +96,41 @@ export default {
       notices:[],
       isLoading:false,
       active: 0,
-      titleList: ["低彩频助手","高彩频助手","足彩助手"]
+      titleList: [],
+      lastid: 0,
+      lottype: [],
+      lottypeList: [],
+      type: '',
+      regpiddes: ''
     }
   },
   methods: {
-    
+    //点击安装
+    async clickAppurl(url,appid) {
+      const { data } = await clickinstall({
+        sid: localStorage.getItem('cp_sid'),
+        uid: localStorage.getItem('cp_uid'),
+        appid
+      })
+      setTimeout(() => {
+        window.location.href = url
+      },800)
+    },
+    //点击选项
+    tabList() {
+      this.type = this.titleList[this.active].type
+      this.gethomeapp()
+    },
+    //应用列表
+    async gethomeapp() {
+      const { data } = await gethomeapp({
+        sid: localStorage.getItem('cp_sid'),
+        uid: localStorage.getItem('cp_uid'),
+        type: this.type,
+        lastid: this.lastid
+      })
+      this.lottypeList = data.list
+    },
     goDetail(data){
         this.$router.push({
             path: '/home/announcement/detail', 
@@ -129,43 +147,46 @@ export default {
       this.is_ios = false;
     },
     onClickRight(){
-      this.$router.push('/personal/about')
+      this.$router.push('/personal/search')
     },
     jumpTo( path, islink ){
       console.log(path)
       this.$router.push(path)
-      // if(path.indexOf('/')==0){
-      //   if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
-      //     this.$router.push({
-      //       path:path,
-      //       query:{
-      //         lottype:localStorage.getItem('_lottype')
-      //       }
-      //     })
-      //     return;
-      //   }
-      //   this.$router.push(path)
-      // }else{
-      //   this.banner_url = path;
-      //   this.$nextTick(()=>{
-      //     document.getElementById('banner_a').click();
-      //   })
-      // }
+      if(path.indexOf('/')==0){
+        if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
+          this.$router.push({
+            path:path,
+            query:{
+              lottype:localStorage.getItem('_lottype')
+            }
+          })
+          return;
+        }
+        this.$router.push(path)
+      }else{
+        this.banner_url = path;
+        this.$nextTick(()=>{
+          document.getElementById('banner_a').click();
+        })
+      }
     },
     async gethome() {
       let obj = {};
-      if(localStorage.getItem('sid')){
-        obj.sid = localStorage.getItem('sid')
+      if(localStorage.getItem('cp_sid')){
+        obj.sid = localStorage.getItem('cp_sid')
       }
-      if(localStorage.getItem('uid')){
-        obj.uid = localStorage.getItem('uid')
+      if(localStorage.getItem('cp_uid')){
+        obj.uid = localStorage.getItem('cp_uid')
       }
       const { data } = await gethome(obj)
       this.isLoading = false;
       this.advs = data.advs 
+      this.titleList = data.lottype
+      this.type = this.titleList[0].type
+      this.regpiddes = data.regpiddes
+      localStorage.setItem('uploadtips',data.uploadtips)
       this.$store.dispatch('set_homedata',data)
       this.$store.dispatch('set_apkurl',data.apkurl)
-   
     },
   },
   created(){
@@ -194,7 +215,7 @@ export default {
       localStorage['pid'] = ''
     }
     
-    if(localStorage['uid'] && localStorage['uid']!=''){
+    if(localStorage['cp_uid'] && localStorage['cp_uid']!=''){
       this.left_text = '我的账号';
       this.left_path = '/personal/index'
     }
@@ -212,11 +233,13 @@ export default {
   activated(){  
     this.lastid = 0;
     this.show_lt = false;
-    this.gethome()
+    this.gethome().then(() => {
+      this.gethomeapp()
+    })
     this.isFirstEnter=false;
     this.$store.dispatch('set_isback',false)
     
-    if(localStorage['uid'] && localStorage['uid']!=''){
+    if(localStorage['cp_uid'] && localStorage['cp_uid']!=''){
       this.left_text = '我的账号';
       this.left_path = '/personal/index'
     }

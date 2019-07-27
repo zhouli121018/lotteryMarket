@@ -129,6 +129,15 @@ export default [
                     cache: false
                 }
             },
+            {//彩票预测大师
+                path: 'applicationDetail',
+                name: 'applicationDetail',
+                component: _import('personal/applicationDetail'),
+                meta: {
+                    title: '彩票预测大师',
+                    cache: false
+                }
+            },
             {
                 path: 'about',
                 name:'about',

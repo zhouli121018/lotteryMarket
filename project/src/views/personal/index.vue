@@ -1,22 +1,22 @@
 <template>
     <div class="container">
         <title-bar title_name="我的账号" />
-        <div class="myAccount_title">
+        <div class="myAccount_title" v-if="info">
             <div>
                 <div>
-                    <p>账号: 0290</p>
-                    <p>金额: 978元</p>
+                    <p>账号: {{info.uname}}</p>
+                    <p>金额: {{info.income_cur}}元</p>
                 </div>
                 <van-button type="primary" style="" size="small" @click="show=true">提款</van-button>
             </div>
-            <p>提示: 提交app审核通过得5元，邀请一个用户注册得0.5元</p>
+            <p>{{info.tips}}</p>
         </div>
         <div class="xian"></div>
         <div>
             <van-cell title="应用审核列表" is-link icon="tj" @click="jumpTo('/personal/recommend')"/>
-            <van-cell title="上传应用" is-link icon="dlzq"  @click="jumpTo('/home/earnMoney')"/>
-            <van-cell title="收入明细" is-link icon="kjtx"  @click="jumpTo('/home/openRemind')"/>
-            <van-cell title="推荐有奖" is-link icon="free"  @click="jumpTo('/personal/freeUse')"/>
+            <van-cell title="上传应用" is-link icon="dlzq"  @click="jumpTo('/personal/applicationUpload')"/>
+            <van-cell title="收入明细" is-link icon="kjtx"  @click="jumpTo('/personal/incomeDetails')"/>
+            <van-cell title="推荐有奖" is-link icon="free"  @click="jumpTo('/personal/recommend')"/>
             <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
         </div>
 
@@ -37,25 +37,11 @@
                 label="支付宝："
             />
         </van-dialog>
-        <van-dialog 
-            v-model="isShow"
-            title="兑换会员天数"
-            show-cancel-button
-            class="dialog_content_input"
-            :before-close="beforeClose"
-            >
-            <van-field
-                v-model.trim="vipticket"
-                clearable
-                label="会员券(张)："
-                type="number"
-            /> 
-        </van-dialog>
     </div>
 </template>
 
 <script>
-import { getaccount } from '@/api'
+import { getaccount, submittikuan } from '@/api'
 import { Dialog } from 'vant'
 export default {
     data() {
@@ -90,34 +76,32 @@ export default {
                     done(false)
                     return;
                 }
+                this.submittikuan()
                 this.alipay = ''
             }
             done();
+        },
+        //提款
+        async submittikuan() {
+            const { data } = await submittikuan({
+                sid: localStorage.getItem('sid'),
+                uid: localStorage.getItem('uid'),
+                alipay:this.alipay
+            })
+            this.info.income_cur = data.yongjin
         },
         jumpTo(path){
             this.$router.push(path);
         },
         async getaccount() {
             const { data } = await getaccount({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
+                sid: localStorage.getItem('cp_sid'),
+                uid: localStorage.getItem('cp_uid')
             })
             this.info = data
-            this.ticketnum = this.info.ticketnum
         },
         goAbout(){
             this.$router.push('/personal/about');
-        },
-        beforeClose(action,done){
-            if(action == 'confirm'){
-                if(!this.vipticket){
-                    this.$toast('请输入会员券!')
-                    done(false)
-                    return;
-                }
-                this.vipticket = ''
-            }
-            done();
         },
     },
     created() {
@@ -162,6 +146,7 @@ export default {
         color #666
         font-size 12px
         margin-top .2rem
+        line-height .5rem
 .text_center
     width 90%
     box-sizing border-box

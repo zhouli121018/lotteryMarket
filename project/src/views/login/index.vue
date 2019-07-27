@@ -2,10 +2,10 @@
     <div class="container">
         <title-bar title_name="密码登录"/>
         <div class="van_box">
-            <van-field label="账号" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入账号" />
+            <van-field label="账号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入账号" />
         </div>
         <div class="van_box">
-            <van-field label="密码" maxlength="11" type="number" class="van_field" clearable v-model="code" placeholder="请输入密码" />
+            <van-field label="密码" maxlength="20" type="text" class="van_field" clearable v-model="code" placeholder="请输入密码" />
             <!-- <CutDown @click="codeVerify" :disabled="disabled" :moble="mobile"></CutDown> -->
         </div>
         <router-link tag="div" to="/login/verification" class="van_box_right">忘记密码</router-link>
@@ -15,54 +15,31 @@
 </template>
 
 <script>
-import { validatePhone } from '@/utils/validate'
-import CutDown from '@/components/CutDown'
 import { loginbypass } from '@/api/index'
 export default {
-    components: {
-        CutDown
-    },
     data() {
         return {
-            mobile: '',
+            account: '',
             code: ''
         }
     },
     methods: {
         async loginbypass () {
+            if(!this.account || !this.code) {
+                this.$toast('请填写账号或密码!')
+                return 
+            }
             const { data }    = await loginbypass({
-                phone: this.mobile,
+                account: this.account,
                 pass: this.code
             });
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['cp_uid'] = data.uid
+                window.localStorage['cp_sid'] = data.sid
                 this.$router.replace('/home/index')
             }
             
         },
-    },
-    computed: {
-        disabled() {
-            return !validatePhone(this.mobile)
-        },
-        submitValidate() {
-            if(!this.mobile || !this.code) {
-                return {
-                    ok: false,
-                    msg: '请填写完整信息'
-                }
-            }
-            if(!validatePhone(this.mobile)) {
-                return {
-                    ok: false,
-                    msg: '请输入正确手机号'
-                }
-            }
-            return {
-                ok: true,msg: 'ok'
-            }
-        }
     },
 }
 </script>

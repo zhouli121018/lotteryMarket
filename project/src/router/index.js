@@ -35,14 +35,14 @@ router.beforeEach((to, from, next) => {
     if (title) {
         document.title = title
     }
-    // if( to.name == 'openRemind' || to.name == 'freeUse' || to.name == 'earnMoney'|| to.name == 'personalIndex'){
-    //     if(!localStorage.getItem('uid') || !localStorage.getItem('sid')) {
-    //         next({
-    //             path:'/login/index'
-    //         })
-    //         return;
-    //     }
-    // }
+    if(to.name == 'personalIndex' || to.name == 'listUse'){
+        if(!localStorage.getItem('cp_uid') || !localStorage.getItem('cp_sid')) {
+            next({
+                path:'/login/index'
+            })
+            return;
+        }
+    }
     
     next()
     

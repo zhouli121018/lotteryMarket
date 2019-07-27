@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <title-bar title_name="应用上传" />
-        <p class="orange">温馨提示: 提交审核通过奖励5元,邀请注册奖励1元</p>
+        <p class="orange">{{uploadtips}}</p>
         <div class="van_box">
             <van-field label="APP名称 : " type="text" clearable v-model="phone" placeholder="请输入APP名称" />
         </div>
@@ -26,7 +26,7 @@
         <div class="van_box">
             <van-field label="简介 : " type="textarea" clearable v-model="phone" placeholder="请输入简介" />
         </div>
-        <van-button style="background:#3996FF;color:#fff" @click="regist">注册</van-button>
+        <van-button style="background:#3996FF;color:#fff" @click="regist">提交审核</van-button>
         <van-popup v-model="show" position="bottom">
             <van-picker
                 show-toolbar
@@ -46,21 +46,24 @@ export default {
             columns: ['低频彩助手', '高频彩助手', '足彩助手'],
             phone: '',
             show: false,
-            fileList: []
+            fileList: [],
+            uploadtips: ''
         }
     },
     methods: {
+        //提交审核
+        regist() {},
         //上传图片
         async afterRead(file) {
             // 此时可以自行将文件上传至服务器
             let now = new Date();
-            let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
+            let md5_data = md5('token=' + now.getTime() + '&key=llduht1ffyifGfl182');
             const formData = new FormData()
             formData.append('image', file.file)
             formData.append('token',now.getTime())
             formData.append('data',md5_data)
-            formData.append('sid',localStorage.getItem('sid'))
-            formData.append('uid',localStorage.getItem('uid'))
+            formData.append('sid',localStorage.getItem('cp_sid'))
+            formData.append('uid',localStorage.getItem('cp_uid'))
             // const { data } = await submitpicture(formData)
             // this.form.babyimg = data.url
         },
@@ -74,6 +77,9 @@ export default {
         onCancel() {
          this.$toast('取消');
         }
+    },
+    mounted() {
+        this.uploadtips = localStorage.getItem('uploadtips')
     }
 }
 </script>

@@ -2,78 +2,37 @@
     <div class="container">
         <title-bar title_name="找回密码"/>
         <div class="van_box">
-            <van-field label="邮箱" maxlength="11" type="number" clearable v-model="mobile" placeholder="请输入邮箱" />
+            <van-field label="邮箱" maxlength="20" type="text" clearable v-model="email" placeholder="请输入邮箱" />
         </div>
         <van-button style="background:#3996FF;color:#fff" @click="loginbyvcode">确定</van-button>
     </div>
 </template>
 
 <script>
-import { validatePhone } from '@/utils/validate'
-import CutDown from '@/components/CutDown'
-import { getvcode, loginbyvcode } from '@/api/index'
+import { findpassbyemail } from '@/api/index'
 export default {
-    components: {
-        CutDown
-    },
     data() {
         return {
-            mobile: '',
-            code: ''
+            email: ''
         }
     },
     methods: {
-        async getvcode() {
-            const { data } = await getvcode({
-                noLoading: false,
-                phone: this.mobile
-            })
-            if(data.errorcode == 0){
-                this.$refs.codeEl.isStart = true;
-                this.$refs.codeEl.start();
-            }
-            this.$toast(data.message)
-        },
         async loginbyvcode () {
+            if(!this.email && /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)){
+                Toast('请输入正确的邮箱！');
+                return;
+            }
             let obj = {
-                phone: this.mobile,
-                vcode: this.code
+                email: this.email
             };
-            if(localStorage.getItem('cid')){ //渠道号
-                obj.cid = localStorage.getItem('cid')
-            }
-            if(localStorage.getItem('pid')){ //推荐码
-                obj.pid = localStorage.getItem('pid')
-            }
-            const { data }    = await loginbyvcode(obj)
+            const { data }    = await findpassbyemail(obj)
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
-                this.$router.replace('/home/index')
+                this.$toast(data.message)
+                setTimeout(() => {
+                    this.$router.replace('/home/index')
+                },2000)
             }
         },
-    },
-    computed: {
-        disabled() {
-            return !validatePhone(this.mobile)
-        },
-        submitValidate() {
-            if(!this.mobile || !this.code) {
-                return {
-                    ok: false,
-                    msg: '请填写完整信息'
-                }
-            }
-            if(!validatePhone(this.mobile)) {
-                return {
-                    ok: false,
-                    msg: '请输入正确手机号'
-                }
-            }
-            return {
-                ok: true,msg: 'ok'
-            }
-        }
     },
 }
 </script>

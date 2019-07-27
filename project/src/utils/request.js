@@ -24,7 +24,7 @@ service.interceptors.request.use(config => {
         }
         if (config) { //给所有请求加上 token 和 data 参数
             let now = new Date();
-            let md5_data = md5('token=' + now.getTime() + '&key=lldu43d98382');
+            let md5_data = md5('token=' + now.getTime() + '&key=llduht1ffyifGfl182');
             config.data.token = now.getTime();
             config.data.data = md5_data;
         }

@@ -7,14 +7,14 @@
                     <i class="blue"></i>
                     <div>
                         <p>总收入</p>
-                        <p>237元</p>
+                        <p>{{info.income_total}}元</p>
                     </div>
                 </div>
                 <div>
                     <i class="orange"></i>
                     <div>
                         <p>提款</p>
-                        <p>237元</p>
+                        <p>{{info.income_tikuan}}元</p>
                     </div>
                 </div>
             </div>
@@ -23,14 +23,14 @@
                     <i class="red"></i>
                     <div>
                         <p>未提款</p>
-                        <p>237元</p>
+                        <p>{{info.income_notikuan}}元</p>
                     </div>
                 </div>
                 <div>
                     <i class="green"></i>
                     <div>
                         <p>今日收入</p>
-                        <p>237元</p>
+                        <p>{{info.income_today}}元</p>
                     </div>
                 </div>
             </div>
@@ -42,10 +42,10 @@
                 <van-col span="8">应用名称</van-col>
                 <van-col span="8">收入金额</van-col>
             </van-row>
-            <van-row class="income_content income_contents">
-                <van-col span="8">应用审核通过</van-col>
-                <van-col span="8">彩票预测大师</van-col>
-                <van-col span="8">5元</van-col>
+            <van-row class="income_content income_contents" v-for="(item,index) in info.list" :key="index">
+                <van-col span="8">{{item.incometype}}</van-col>
+                <van-col span="8">{{item.appname}}</van-col>
+                <van-col span="8">{{item.money}}元</van-col>
             </van-row>
         </div>
         <van-dialog 
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { submittikuan, getincomelist } from '@/api'
 export default {
     data() {
         return {
@@ -73,6 +74,14 @@ export default {
         }
     },
     methods: {
+        //收入明细
+        async getincomelist() {
+            const { data } = await getincomelist({
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid')
+            })
+            this.info = data
+        },
         beforeClose_tk(action,done){
             if(action == 'confirm'){
                 if(!this.alipay){
@@ -80,10 +89,23 @@ export default {
                     done(false)
                     return;
                 }
+                this.submittikuan()
                 this.alipay = ''
             }
             done();
         },
+        //提款
+        async submittikuan() {
+            const { data } = await submittikuan({
+                sid: localStorage.getItem('sid'),
+                uid: localStorage.getItem('uid'),
+                alipay:this.alipay
+            })
+            this.info.income_cur = data.yongjin
+        },
+    },
+    mounted() {
+        this.getincomelist()
     }
 }
 </script>

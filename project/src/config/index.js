@@ -7,7 +7,7 @@ export default {
         // www.yeev.vip
         apiURL: 'http://sscby.cn/zzh', // 项目线上域名
         timeout: 100000
-            // http://sscby.cn/zzh/                        // 请求超时时间
+            // http://sscby.cn/cpmarket/                        // 请求超时时间
     }
 }
 //http://qitengcdz.app.xiaozhuschool.com/Wxsite/Base/getCode?resultUrl=http://qitengcdz.app.xiaozhuschool.com/wx/home/index

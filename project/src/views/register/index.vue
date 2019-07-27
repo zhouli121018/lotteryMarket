@@ -2,16 +2,16 @@
     <div class="container">
         <title-bar title_name="新用户注册" />
         <div class="van_box">
-            <van-field label="账号" maxlength="11" type="number" clearable v-model="phone" placeholder="请输入您的账号" />
+            <van-field label="账号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入您的账号" />
         </div>
         <div class="van_box">
-            <van-field label="密码" type="number" maxlength="11" clearable v-model="password" placeholder="请输入您的密码" />
+            <van-field label="密码" type="number" maxlength="20" clearable v-model="password" placeholder="请输入您的密码" />
         </div>
         <div class="van_box">
-            <van-field label="邮箱" maxlength="11" type="number" class="van_field" clearable v-model="vcode" placeholder="找回密码用" />
+            <van-field label="邮箱" type="text" class="van_field" clearable v-model="email" placeholder="找回密码用" />
         </div>
         <div class="van_box">
-            <van-field label="邀请码" maxlength="11" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
+            <van-field label="邀请码" type="number" :disabled="has_pid" class="van_field_code" clearable v-model="pid" :placeholder="regpiddes" />
         </div>
         <van-button style="background:#3996FF;color:#fff" @click="regist">注册</van-button>
     </div>
@@ -20,7 +20,7 @@
 <script>
 import { validatePhone } from '@/utils/validate'
 import CutDown from '@/components/CutDown'
-import { getvcode, regist } from '@/api'
+import { regist } from '@/api'
 import { gethome } from '@/api/home'
 import { Toast } from 'vant';
 export default {
@@ -29,11 +29,12 @@ export default {
     },
     data() {
         return {
-            phone: '',
+            account: '',
             pid: '', //邀请码
             password: '',
             vcode: '', //验证码
             device: 0  ,//手机类型,
+            email: '',//邮箱
             has_pid:false,
             regpiddes:''
         }
@@ -41,49 +42,34 @@ export default {
     methods: {
         async gethome() {
             let obj = {};
-            if(localStorage.getItem('sid')){
-                obj.sid = localStorage.getItem('sid')
+            if(localStorage.getItem('cp_sid')){
+                obj.sid = localStorage.getItem('cp_sid')
             }
-            if(localStorage.getItem('uid')){
-                obj.uid = localStorage.getItem('uid')
+            if(localStorage.getItem('cp_uid')){
+                obj.uid = localStorage.getItem('cp_uid')
             }
             const { data } = await gethome(obj)
             this.$store.dispatch('set_homedata',data)
             this.$store.dispatch('set_apkurl',data.apkurl)
             this.regpiddes = data.regpiddes
         },
-        async codeVerify() {
-            const { data } = await getvcode({
-                phone: this.phone
-            })
-            if(data.errorcode == 0){
-                this.$refs.codeEl.isStart = true;
-                this.$refs.codeEl.start();
-            }
-            this.$toast(data.message)
-            
-        },
         async regist() {
-            if(!this.phone){
-                Toast('请输入手机号！');
-                return;
-            }
-            if(this.phone && !(/^1\d{10}$/.test(this.phone))){
-                Toast('请输入正确的手机号！');
+            if(!this.account){
+                Toast('请输入账号！');
                 return;
             }
             if(!this.password){
-                Toast('请输入密码！');
+                Toast('请输入账号！');
                 return;
             }
-            if(!this.vcode){
-                Toast('请输入验证码！');
+            if(!this.email && /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)){
+                Toast('请输入正确的邮箱！');
                 return;
             }
             let obj = {
-                phone: this.phone,
+                account: this.account,
                 pass: this.password,
-                vcode: this.vcode,
+                email: this.email,
                 device: this.device,
                 pid: this.pid
             };
@@ -92,31 +78,9 @@ export default {
             }
             const { data } = await regist(obj)
             if(data.errorcode == 0) {
-                window.localStorage['uid'] = data.uid
-                window.localStorage['sid'] = data.sid
+                window.localStorage['huid'] = data.uid
+                window.localStorage['hsid'] = data.sid
                 this.$router.replace('/home/index')
-            }
-        }
-    },
-    computed: {
-        disabled() {
-            return !validatePhone(this.phone)
-        },
-        submitValidate() {
-            if(!this.phone || !this.code) {
-                return {
-                    ok: false,
-                    msg: '请填写完整信息'
-                }
-            }
-            if(!validatePhone(this.phone)) {
-                return {
-                    ok: false,
-                    msg: '请输入正确手机号'
-                }
-            }
-            return {
-                ok: true,msg: 'ok'
             }
         }
     },

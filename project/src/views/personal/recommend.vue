@@ -36,8 +36,8 @@ export default {
         },
         async gettuijiancode() {
             const { data } = await gettuijiancode({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid')
+                sid: localStorage.getItem('cp_sid'),
+                uid: localStorage.getItem('cp_uid')
             })
             if(data.errorcode == 0) {
                 this.info = data

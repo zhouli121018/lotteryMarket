@@ -20,8 +20,26 @@
 </template>
 
 <script>
+import { getapprolist } from '@/api'
 export default {
+    data() {
+        return {
 
+        }
+    },
+    methods: {
+        async getapprolist() {
+            const { data } = await getapprolist({
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid')
+            })
+            console.log(data)
+            this.info = data
+        }
+    },
+    mounted() {
+        this.getapprolist()
+    }
 }
 </script>
 

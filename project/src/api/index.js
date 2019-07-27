@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-//获取验证码
-export function getvcode(data) {
+//1、用户注册协议 regist.php?f=1027&c=oppo
+export function regist(data) {
     return request({
-        url: '/getvcode.php',
+        url: '/regist.php',
         method: 'post',
         data: {
             ...data
@@ -11,10 +11,11 @@ export function getvcode(data) {
     })
 }
 
-//1、用户注册协议 regist.php?f=1027&c=oppo
-export function regist(data) {
+//找回密码
+
+export function findpassbyemail(data) {
     return request({
-        url: '/regist.php',
+        url: '/findpassbyemail.php',
         method: 'post',
         data: {
             ...data
@@ -56,6 +57,86 @@ export function getaccount(data) {
 export function getabout(data) {
     return request({
         url: '/getabout.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取应用审核列表 
+export function getapprolist(data) {
+    return request({
+        url: '/getapprolist.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取首页应用列表
+export function gethomeapp(data) {
+    return request({
+        url: '/gethomeapp.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取排行榜描述
+export function getrankDesc(data) {
+    return request({
+        url: '/getrank_desc.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取排行榜列表
+export function getrankList(data) {
+    return request({
+        url: '/getrank_list.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 统计点击安装协议 clickinstall.php 点击安装的时候发送请求，不管是否成功，同时跳转到外部打开安装连接
+export function clickinstall(data) {
+    return request({
+        url: '/clickinstall.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取搜索内容
+export function getsearchlist(data) {
+    return request({
+        url: '/getsearchlist.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 佣金提款submittikuan.php 
+export function submittikuan(data) {
+    return request({
+        url: '/submittikuan.php',
+        method: 'post',
+        data: {
+            ...data
+        }
+    })
+}
+// 获取收入明细列表 
+export function getincomelist(data) {
+    return request({
+        url: '/getincomelist.php',
         method: 'post',
         data: {
             ...data
