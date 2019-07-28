@@ -42,7 +42,8 @@ service.interceptors.request.use(config => {
     // 返回拦截器
 service.interceptors.response.use(
         response => {
-            const { noToast = true, noLoading = true } = urlParse(response.config.data)
+            // const { noToast = true, noLoading = true } = urlParse(response.config.data)
+            const {noToast = true, noLoading = true} = response.config.data
             if (noLoading && noLoading !== 'false') {
                 store.commit('Change_Loading', false)
             }

@@ -36,13 +36,13 @@
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
               <img :src="$https+dom.img" alt="">
-              <div>
+              <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
                 <p>{{dom.appname}}</p>
                 <div>
                   <van-rate :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
-                <p>{{dom.appdese}}</p>
-              </div>
+                <p>{{dom.appdesc}}</p>
+              </router-link>
               <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
             </div>
           </van-tab>
@@ -129,7 +129,12 @@ export default {
         type: this.type,
         lastid: this.lastid
       })
-      this.lottypeList = data.list
+      this.lottypeList = data.list.map(item => {
+        return {
+          ...item,
+          appstar: Math.round(item.appstar)
+        }
+      })
     },
     goDetail(data){
         this.$router.push({

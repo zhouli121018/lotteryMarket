@@ -1,27 +1,21 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="info">
         <title-bar title_name="预测彩票大师" />
         <div class="assistant_list">
-            <img src="../../assets/chart.png" alt="">
+            <img :src="info.url" alt="">
             <div>
-            <p>彩票预测大师</p>
+            <p>{{info.name}}</p>
             <div>
-                <van-rate :size="14" readonly  v-model="value" />
+                <van-rate :size="14" readonly  v-model="info.score" />
             </div>
-            <p>杀号胆码助手</p>
+            <p>{{info.appdesc}}</p>
             </div>
-            <van-button size="small" plain type="primary">下载</van-button>
+            <van-button size="small" plain type="primary" @click="clickAppurl(info.appurl,info.appid)">下载</van-button>
             <van-button size="small" plain type="danger" @click="isShow=true">好评</van-button>
         </div>
-        <img class="application_img" src="../../assets/banner.png" alt="">
-        <p>全国公认研发的彩票预测交流平台</p>
-        <p class="last_p">预测大师就能打开手机的数据库的开始放款时间预测大师就能打开手机的数据库的开始放款时间的开始发生的机会预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会
-            预测大师就能打开手机的数据库的开始放款时间的开始发生的机会的开始发生的机会</p>
+        <img class="application_img" :src="$https+info.barcode" alt="">
+        <!-- <p>{{info.appdesc}}</p> -->
+        <p class="last_p" v-html="info.overview"></p>
         <div class="fixed_btn">
             <van-button style="background:#3996FF;color:#fff" size="large" @click="complaints">违法投诉</van-button>
         </div>
@@ -38,22 +32,40 @@
 </template>
 
 <script>
-import { comments } from '@/api'
+import { comments, getappdesc, complaint, clickinstall } from '@/api'
 export default {
     data() {
         return {
             value: 4,
             isShow: false,
-            star: 0
+            star: 0,
+            info: null
         }
     },
     methods: {
-        complaints() {
-
+        //应用投诉
+        async complaints() {
+            const { data } = await complaint({
+                appid: this.$route.query.appid,
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid')
+            })
+            this.$toast(data.message)
+        },
+        //点击安装
+        async clickAppurl(url,appid) {
+            const { data } = await clickinstall({
+                sid: localStorage.getItem('cp_sid'),
+                uid: localStorage.getItem('cp_uid'),
+                appid
+            })
+            setTimeout(() => {
+                window.location.href = url
+            },800)
         },
         beforeClose(action,done){
             if(action == 'confirm'){
-                if(!this.alipay){
+                if(!this.star){
                     this.$toast('请评分！')
                     done(false)
                     return;
@@ -62,15 +74,29 @@ export default {
             }
             done();
         },
+        //获取详情
+        async getappdesc() {
+            const { data } = await getappdesc({
+                appid: this.$route.query.appid,
+                uid: localStorage.getItem('cp_uid'),
+                sid: localStorage.getItem('cp_sid')
+            })
+            this.info = data
+            this.info.score = Math.round(this.info.score)
+        },
+        //平星数
         async comment(){
             const { data } = await comments({
                 uid: localStorage.getItem('cp_uid'),
                 sid: localStorage.getItem('cp_sid'),
                 star: this.star,
-                appid: this.appid
+                appid: this.$route.query.appid
             })
             this.$toast(data.message)
         }
+    },
+    mounted() {
+        this.getappdesc()
     }
 }
 </script>

@@ -17,16 +17,16 @@
         </div>
         <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index" v-if="lottypeList.length > 0">
             <img :src="$https+dom.img" alt="">
-            <div>
-            <p>{{dom.appname}}</p>
-            <div>
-                <van-rate :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
-            </div>
-            <p>{{dom.appdese}}</p>
-            </div>
+            <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
+                <p>{{dom.appname}}</p>
+                <div>
+                    <van-rate :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                </div>
+                <p>{{dom.appdesc}}</p>
+            </router-link>
             <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
         </div>
-        <div class="no_data">暂无数据</div>
+        <div v-else class="no_data">暂无数据</div>
     </div>
 </template>
 
@@ -65,7 +65,12 @@ export default {
                 sid: localStorage.getItem('cp_sid'),
                 keyword: this.keyword
             })
-            this.lottypeList = data.list
+            this.lottypeList = data.list.map(item => {
+                return {
+                    ...item,
+                    appstar: Math.round(item.appstar)
+                }
+            })
             this.hotlist = data.hotlist
         }
     },

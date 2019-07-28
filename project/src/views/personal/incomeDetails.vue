@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <title-bar title_name="收入明细" />
-        <div class="income_details">
+        <div class="income_details" v-if="info">
             <div>
                 <div>
                     <i class="blue"></i>
@@ -36,7 +36,7 @@
             </div>
             <van-button type="primary" size="small" @click="show=true">提款</van-button>
         </div>
-        <div>
+        <div v-if="info">
             <van-row class="income_content">
                 <van-col span="8">收入类型</van-col>
                 <van-col span="8">应用名称</van-col>
@@ -70,7 +70,8 @@ export default {
     data() {
         return {
             show: false,
-            alipay: ''
+            alipay: '',
+            info: null
         }
     },
     methods: {
