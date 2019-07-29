@@ -149,7 +149,6 @@ export default {
             appstar: Math.round(item.appstar)
           }
         })
-        console.log(this.lottypeList)
           
       }else {
           data.list.map(item=>{

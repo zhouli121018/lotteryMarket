@@ -3,7 +3,7 @@
         <title-bar title_name="应用上传" />
         <p class="orange">{{uploadtips}}</p>
         <div class="van_box">
-            <van-field label="APP名称 : " type="text" clearable v-model="phone" placeholder="请输入APP名称" />
+            <van-field label="APP名称 : " type="text" clearable v-model="appname" placeholder="请输入APP名称" />
         </div>
         <div class="van_box">
             <van-field
@@ -11,6 +11,7 @@
                 label="应用类型 : "
                 @click="isShow"
                 type="text"
+                readonly
             />
         </div>
         <div class="van_box">
@@ -46,7 +47,6 @@ export default {
     data() {
         return {
             columns: ['低频彩助手', '高频彩助手', '足彩助手'],
-            phone: '',
             show: false,
             fileList: [],
             uploadtips: '',
@@ -62,7 +62,8 @@ export default {
     methods: {
         //提交审核
         async regist() {
-            if(!this.type || !this.appname || !this.appdesc || !this.iconurl || !this.downloadurl || !this.overview) {
+            console.log(this.type,this.appname,this.appdesc,this.iconurl,this.downloadurl,this.overview)
+            if(!this.appname || !this.appdesc || !this.iconurl || !this.downloadurl || !this.overview) {
                 this.$toast('请填写完整信息!')
                 return 
             }
@@ -100,7 +101,7 @@ export default {
             this.show = false
         },
         onCancel() {
-         this.$toast('取消');
+        //  this.$toast('取消');
          this.show = false
         }
     },

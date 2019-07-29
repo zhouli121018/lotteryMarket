@@ -3,16 +3,6 @@
 */
 import request from '@/utils/request'
 
-export function deviceList (data) {
-  return request({
-    url: '/Wxsite/Site/api',
-    method: 'post',
-    data:{
-      api_name: 'siteList',
-      ...data
-    }
-  })
-}
 //获取公告列表协议 getnotices.php
 export function getnotices (data) {
   return request({

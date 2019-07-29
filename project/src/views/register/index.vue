@@ -59,7 +59,7 @@ export default {
                 return;
             }
             if(!this.password){
-                Toast('请输入账号！');
+                Toast('请输入密码！');
                 return;
             }
             if(!this.email && /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)){
