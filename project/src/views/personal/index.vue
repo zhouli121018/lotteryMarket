@@ -13,11 +13,11 @@
         </div>
         <div class="xian"></div>
         <div>
-            <van-cell title="应用审核列表" is-link icon="tj" @click="jumpTo('/personal/applicationList')"/>
-            <van-cell title="上传应用" is-link icon="dlzq"  @click="jumpTo('/personal/applicationUpload')"/>
-            <van-cell title="收入明细" is-link icon="kjtx"  @click="jumpTo('/personal/incomeDetails')"/>
-            <van-cell title="推荐有奖" is-link icon="free"  @click="jumpTo('/personal/recommend')"/>
-            <van-cell title="关于" is-link icon="about"  @click="jumpTo('/personal/about')"/>
+            <van-cell title="应用审核列表" is-link icon="yysh" @click="jumpTo('/personal/applicationList')"/>
+            <van-cell title="上传应用" is-link icon="scyy"  @click="jumpTo('/personal/applicationUpload')"/>
+            <van-cell title="收入明细" is-link icon="srmx"  @click="jumpTo('/personal/incomeDetails')"/>
+            <van-cell title="推荐有奖" is-link icon="tjyj"  @click="jumpTo('/personal/recommend')"/>
+            <van-cell title="关于" is-link icon="gy"  @click="jumpTo('/personal/about')"/>
         </div>
 
         <div class="text_center">
@@ -163,36 +163,37 @@ export default {
             color #666
             font-size .35rem
 /deep/ .van-cell
-    padding 16px 15px
-/deep/ .van-icon-tj::before
+    padding 12px 15px
+    line-height .8rem
+/deep/ .van-icon-yysh::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/tj_p.png') no-repeat
+    background url('~@/assets/yysh.png') no-repeat
     background-size contain
-/deep/ .van-icon-dlzq::before
+/deep/ .van-icon-scyy::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/dlzq_p.png') no-repeat
+    background url('~@/assets/scyy.png') no-repeat
     background-size contain
-/deep/ .van-icon-kjtx::before
+/deep/ .van-icon-srmx::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/kjtx_p.png') no-repeat
+    background url('~@/assets/srmx.png') no-repeat
     background-size contain
-/deep/ .van-icon-free::before
+/deep/ .van-icon-tjyj::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/free.png') no-repeat
+    background url('~@/assets/tjyj.png') no-repeat
     background-size contain
-/deep/ .van-icon-about::before
+/deep/ .van-icon-gy::before
     content ''
     width .88rem
     height .88rem
-    background url('~@/assets/about_zzh.png') no-repeat
+    background url('~@/assets/gy.png') no-repeat
     background-size contain
 /deep/ .van-cell:not(:last-child)::after
     border-bottom 1px solid #CECECE;
