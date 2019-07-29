@@ -180,15 +180,6 @@ export default {
       console.log(path)
       this.$router.push(path)
       if(path.indexOf('/')==0){
-        if(path == '/home/aPlan' && localStorage.getItem('_lottype')){
-          this.$router.push({
-            path:path,
-            query:{
-              lottype:localStorage.getItem('_lottype')
-            }
-          })
-          return;
-        }
         this.$router.push(path)
       }else{
         this.banner_url = path;
