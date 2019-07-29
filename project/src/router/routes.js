@@ -90,7 +90,7 @@ export default [
                 component: _import('personal/incomeDetails'),
                 meta: {
                     title: '收入明细',
-                    cache: true
+                    cache: false
                 }
             },
             {//搜索

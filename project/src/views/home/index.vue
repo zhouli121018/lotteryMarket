@@ -13,16 +13,17 @@
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
           <van-swipe-item  v-for="(image, index) in advs" :key="index">
             <div class="swipe_img_box" @click="jumpTo(image.url)">
-              <img :src="$https+image.pic" />
+              <img :src="$https+image.pic" style="border-radius:.2rem;"/>
             </div>
           </van-swipe-item>
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
-        <van-notice-bar
+        <van-notice-bar v-if="notices.length>0"
           color="#6A6A6A"
-          :text="regpiddes"
           left-icon="volume-o"
-        />
+        >
+        <span v-for="n in notices" :key="n.noticeid" @click="goNotice(n.noticeid)" style="margin-right:1rem;">{{n.title}}</span>
+        </van-notice-bar>
         <van-row :gutter="30" class="list_box text_center">
           <van-col span="6" style="width:23%;padding-left:0;padding-right:0" v-for="(l,index) in list" :key="index">
             <div class="item_box"  @click="jumpTo(l.link,l.islink)">
@@ -47,6 +48,9 @@
             </div>
           </van-tab>
         </van-tabs>
+        <div class="text_center" style="padding:.3rem 0;">
+          <span @click="gethomeapp" style="color:#3996ff;">加载更多</span>
+        </div>
       <!-- </van-pull-refresh> -->
 
     </div>
@@ -105,6 +109,14 @@ export default {
     }
   },
   methods: {
+    goNotice(noticeid){
+      this.$router.push({
+        path:'/home/announcement/detail',
+        query:{
+          noticeid:noticeid
+        }
+      })
+    },
     //点击安装
     async clickAppurl(url,appid) {
       const { data } = await clickinstall({
@@ -129,12 +141,22 @@ export default {
         type: this.type,
         lastid: this.lastid
       })
-      this.lottypeList = data.list.map(item => {
-        return {
-          ...item,
-          appstar: Math.round(item.appstar)
-        }
-      })
+      
+      if(this.lastid == 0) {
+        this.lottypeList = data.list.map(item => {
+          return {
+            ...item,
+            appstar: Math.round(item.appstar)
+          }
+        })
+        console.log(this.lottypeList)
+          
+      }else {
+          data.list.map(item=>{
+            this.lottypeList.push(item)
+          })
+      }  
+      this.lastid = data.lastid;
     },
     goDetail(data){
         this.$router.push({
@@ -189,6 +211,7 @@ export default {
       this.titleList = data.lottype
       this.type = this.titleList[0].type
       this.regpiddes = data.regpiddes
+      this.notices = data.notices;
       localStorage.setItem('uploadtips',data.uploadtips)
       this.$store.dispatch('set_homedata',data)
       this.$store.dispatch('set_apkurl',data.apkurl)

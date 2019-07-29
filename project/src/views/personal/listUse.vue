@@ -5,12 +5,12 @@
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
           <van-swipe-item  v-for="(image, index) in advs" :key="index">
             <div class="swipe_img_box" @click="jumpTo(image.url)">
-              <img :src="$https+image.pic" />
+              <img :src="$https+image.pic" style="border-radius:.2rem;"/>
             </div>
           </van-swipe-item>
         </van-swipe> 
         <div class="xian"></div>
-        <van-tabs v-model="active" color="#3996FF" title-active-color="#3996FF">
+        <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.rankname">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
               <img :src="$https+dom.img" alt="">
@@ -41,6 +41,10 @@ export default {
         }
     },
     methods: {
+      tabList() {
+        this.type = this.titleList[this.active].ranktype
+        this.getrankLists()
+      },
       async getrankDescs() {
         const { data } = await getrankDesc({
           uid: localStorage.getItem('cp_uid'),
@@ -55,7 +59,7 @@ export default {
         const { data } = await getrankList({
           uid: localStorage.getItem('cp_uid'),
           sid: localStorage.getItem('cp_sid'),
-          ranktype: this.type
+          ranktype: this.titleList[this.active].ranktype
         })
         this.lottypeList = data.list.map(item => {
           return {
@@ -65,7 +69,7 @@ export default {
         })
       }
     },
-    mounted() {
+    activated() {
       this.getrankDescs().then(() => {
         this.getrankLists()
       })

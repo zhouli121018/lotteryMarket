@@ -105,7 +105,7 @@ export default {
             this.info.income_cur = data.yongjin
         },
     },
-    mounted() {
+    created() {
         this.getincomelist()
     }
 }

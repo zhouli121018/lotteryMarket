@@ -78,8 +78,8 @@ export default {
             }
             const { data } = await regist(obj)
             if(data.errorcode == 0) {
-                window.localStorage['huid'] = data.uid
-                window.localStorage['hsid'] = data.sid
+                window.localStorage['cp_uid'] = data.uid
+                window.localStorage['cp_sid'] = data.sid
                 this.$router.replace('/home/index')
             }
         }

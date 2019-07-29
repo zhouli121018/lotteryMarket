@@ -9,7 +9,7 @@
         </div>
         <div class="recommend_content">
             <p class="content_weight">邀请码: {{info.invitecode}}</p>
-            <img :src="$https+info.barcode" alt="">
+            <img :src="info.barcode" alt="">
             <div class="content_font fonts">
                 {{info.invitedesc}}
             </div>
