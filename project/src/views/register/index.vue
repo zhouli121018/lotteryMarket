@@ -2,7 +2,7 @@
     <div class="container">
         <title-bar title_name="新用户注册" />
         <div class="van_box">
-            <van-field label="账号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入您的账号" />
+            <van-field label="帐号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入您的帐号" />
         </div>
         <div class="van_box">
             <van-field label="密码" type="number" maxlength="20" clearable v-model="password" placeholder="请输入您的密码" />
@@ -55,7 +55,7 @@ export default {
         },
         async regist() {
             if(!this.account){
-                Toast('请输入账号！');
+                Toast('请输入帐号！');
                 return;
             }
             if(!this.password){

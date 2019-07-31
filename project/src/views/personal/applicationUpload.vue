@@ -19,7 +19,7 @@
             <van-uploader v-model="fileList" :after-read="afterRead" :max-count="2"/>
         </div>
         <div class="van_box">
-            <van-field label="一句话描述 : " type="text" clearable v-model="appdesc" placeholder="请输入一句话描述" />
+            <van-field label="一句话描述 : " type="text" maxlength="10" clearable v-model="appdesc" placeholder="请输入一句话描述" />
         </div>
         <div class="van_box">
             <van-field label="下载链接 : " type="text" clearable v-model="downloadurl" placeholder="请输入下载链接" />
@@ -77,6 +77,11 @@ export default {
                 downloadurl: this.downloadurl,
                 overview: this.overview
             })
+            if(data.errorcode == 0) {
+                setTimeout(() => {
+                    this.$router.go(-1)  
+                },1200)
+            }
         },
         //上传图片
         async afterRead(file) {

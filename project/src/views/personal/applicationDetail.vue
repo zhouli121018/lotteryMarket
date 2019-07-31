@@ -1,23 +1,23 @@
 <template>
     <div class="container" v-if="info">
-        <title-bar title_name="预测彩票大师" />
+        <title-bar :title_name="info.name" />
         <div class="assistant_list">
-            <img :src="info.url" alt="">
+            <img :src="$https+info.icon" alt="">
             <div>
             <p>{{info.name}}</p>
             <div>
-                <van-rate :size="14" readonly  v-model="info.score" />
+                <van-rate style="margin-right: .2rem" :size="14" readonly  v-model="info.score" />
             </div>
-            <p>{{info.appdesc}}</p>
+            <p>{{score}}分   {{info.appinsnum}}次下载</p>
             </div>
-            <van-button size="small" plain type="primary" @click="clickAppurl(info.appurl,info.appid)">下载</van-button>
-            <van-button size="small" plain type="danger" @click="isShow=true">好评</van-button>
+            <van-button size="small" plain type="primary" @click="clickAppurl(info.url,info.appid)">下载</van-button>
+            <van-button size="small" plain type="danger" @click="commentss">好评</van-button>
         </div>
         <img class="application_img" :src="$https+info.barcode" alt="">
         <!-- <p>{{info.appdesc}}</p> -->
         <p class="last_p" v-html="info.overview"></p>
         <div class="fixed_btn">
-            <van-button style="background:#3996FF;color:#fff" size="large" @click="complaints">违法投诉</van-button>
+            <van-button style="background:#3996FF;color:#fff" size="large" @click="complaints">违规投诉</van-button>
         </div>
         <van-dialog 
             v-model="isShow"
@@ -39,12 +39,25 @@ export default {
             value: 4,
             isShow: false,
             star: 0,
-            info: null
+            info: null,
+            score: 0
         }
     },
     methods: {
+        //点击好评
+        commentss() {
+            if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
+                this.$toast('请先登录再评价')
+                return 
+            }
+            this.isShow=true
+        },
         //应用投诉
         async complaints() {
+            if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
+                this.$toast('请先登录再投诉')
+                return 
+            }
             const { data } = await complaint({
                 appid: this.$route.query.appid,
                 uid: localStorage.getItem('cp_uid'),
@@ -59,9 +72,7 @@ export default {
                 uid: localStorage.getItem('cp_uid'),
                 appid
             })
-            setTimeout(() => {
-                window.location.href = url
-            },800)
+            window.location.href = url
         },
         beforeClose(action,done){
             if(action == 'confirm'){
@@ -82,6 +93,7 @@ export default {
                 sid: localStorage.getItem('cp_sid')
             })
             this.info = data
+            this.score = this.info.score
             this.info.score = Math.round(this.info.score)
         },
         //平星数

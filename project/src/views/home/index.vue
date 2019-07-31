@@ -37,10 +37,10 @@
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
               <img :src="$https+dom.img" alt="">
-              <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
+              <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid,appname:dom.appname}}">
                 <p>{{dom.appname}}</p>
                 <div>
-                  <van-rate :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                  <van-rate style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
               </router-link>
@@ -48,7 +48,7 @@
             </div>
           </van-tab>
         </van-tabs>
-        <div class="text_center" style="padding:.3rem 0;">
+        <div class="text_center" v-if="lastid != 0" style="padding:.3rem 0;">
           <span @click="gethomeapp" style="color:#3996ff;">加载更多</span>
         </div>
       <!-- </van-pull-refresh> -->
@@ -85,9 +85,9 @@ export default {
     return {
 
       list:[
-        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/listUse',islink: localStorage.getItem('cp_uid')?false:true},
-        {src:require('../../assets/upload.png'),title:'上传应用',link:'/personal/applicationUpload',islink: false},
-        {src:require('../../assets/myAccount.png'),title:'我的账号',link:'/personal/index',islink: localStorage.getItem('cp_uid')?false:true},
+        {src:require('../../assets/list.png'),title:'排行榜',link:'/personal/listUse',islink: false},
+        {src:require('../../assets/upload.png'),title:'上传应用',link:'/personal/applicationUpload',islink: localStorage.getItem('cp_uid')?false:true},
+        {src:require('../../assets/myAccount.png'),title:'我的帐号',link:'/personal/index',islink: localStorage.getItem('cp_uid')?false:true},
         {src:require('../../assets/gg.png'),title:'公告',link:'/home/announcement/index',islink: false}
         
       ],
@@ -124,20 +124,20 @@ export default {
         uid: localStorage.getItem('cp_uid'),
         appid
       })
-      setTimeout(() => {
-        window.location.href = url
-      },800)
+      window.location.href = url
     },
     //点击选项
     tabList() {
       this.type = this.titleList[this.active].type
+      this.lottypeList = []
+      this.lastid = 0
       this.gethomeapp()
     },
     //应用列表
     async gethomeapp() {
       const { data } = await gethomeapp({
-        sid: localStorage.getItem('cp_sid'),
-        uid: localStorage.getItem('cp_uid'),
+        sid: localStorage.getItem('cp_sid')?localStorage.getItem('cp_sid'):'',
+        uid: localStorage.getItem('cp_uid')?localStorage.getItem('cp_uid'):'',
         type: this.type,
         lastid: this.lastid
       })
@@ -234,7 +234,7 @@ export default {
     }
     
     if(localStorage['cp_uid'] && localStorage['cp_uid']!=''){
-      this.left_text = '我的账号';
+      this.left_text = '我的帐号';
       this.left_path = '/personal/index'
     }
     document.addEventListener("visibilitychange", () => {
@@ -258,7 +258,7 @@ export default {
     this.$store.dispatch('set_isback',false)
     
     if(localStorage['cp_uid'] && localStorage['cp_uid']!=''){
-      this.left_text = '我的账号';
+      this.left_text = '我的帐号';
       this.left_path = '/personal/index'
     }
   },

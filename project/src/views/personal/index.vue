@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <title-bar title_name="我的账号" />
+        <title-bar title_name="我的帐号" />
         <div class="myAccount_title" v-if="info">
             <div>
                 <div>
-                    <p>账号: {{info.uname}}</p>
+                    <p>帐号: {{info.uname}}</p>
                     <p>金额: {{info.income_cur}}元</p>
                 </div>
                 <van-button type="primary" style="" size="small" @click="show=true">提款</van-button>
@@ -72,7 +72,7 @@ export default {
         beforeClose_tk(action,done){
             if(action == 'confirm'){
                 if(!this.alipay){
-                    this.$toast('请输入支付宝账号！')
+                    this.$toast('请输入支付宝帐号！')
                     done(false)
                     return;
                 }
@@ -88,7 +88,9 @@ export default {
                 uid: localStorage.getItem('uid'),
                 alipay:this.alipay
             })
-            this.info.income_cur = data.yongjin
+            if(data.errorcode == 0) {
+                this.info.income_cur = data.yongjin
+            }
         },
         jumpTo(path){
             this.$router.push(path);

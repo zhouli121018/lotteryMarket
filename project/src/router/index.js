@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
     if (title) {
         document.title = title
     }
-    if(to.name == 'personalIndex' || to.name == 'listUse'){
+    if(to.name == 'personalIndex' || to.name == 'applicationUpload'){
         if(!localStorage.getItem('cp_uid') || !localStorage.getItem('cp_sid')) {
             next({
                 path:'/login/index'

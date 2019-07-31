@@ -2,7 +2,7 @@
     <div class="container">
         <title-bar title_name="密码登录"/>
         <div class="van_box">
-            <van-field label="账号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入账号" />
+            <van-field label="帐号" maxlength="20" type="text" clearable v-model="account" placeholder="请输入帐号" />
         </div>
         <div class="van_box">
             <van-field label="密码" maxlength="20" type="text" class="van_field" clearable v-model="code" placeholder="请输入密码" />
@@ -26,7 +26,7 @@ export default {
     methods: {
         async loginbypass () {
             if(!this.account || !this.code) {
-                this.$toast('请填写账号或密码!')
+                this.$toast('请填写帐号或密码!')
                 return 
             }
             const { data }    = await loginbypass({

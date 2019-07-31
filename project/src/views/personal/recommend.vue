@@ -53,6 +53,8 @@ export default {
 <style lang="stylus" scoped>
 .van-nav-bar
     background transparent
+    height 41px
+    line-height 41px
 .van-nav-bar__title
     color #ffffff
 .van-hairline--bottom::after

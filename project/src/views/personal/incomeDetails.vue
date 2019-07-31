@@ -39,7 +39,7 @@
         <div v-if="info">
             <van-row class="income_content">
                 <van-col span="8">收入类型</van-col>
-                <van-col span="8">应用名称</van-col>
+                <van-col span="8">收入名称</van-col>
                 <van-col span="8">收入金额</van-col>
             </van-row>
             <van-row class="income_content income_contents" v-for="(item,index) in info.list" :key="index">
@@ -86,7 +86,7 @@ export default {
         beforeClose_tk(action,done){
             if(action == 'confirm'){
                 if(!this.alipay){
-                    this.$toast('请输入支付宝账号！')
+                    this.$toast('请输入支付宝帐号！')
                     done(false)
                     return;
                 }
@@ -102,7 +102,9 @@ export default {
                 uid: localStorage.getItem('uid'),
                 alipay:this.alipay
             })
-            this.info.income_cur = data.yongjin
+            if(data.errorcode == 0) {
+                this.info.income_cur = data.yongjin
+            }
         },
     },
     created() {

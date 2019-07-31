@@ -20,7 +20,7 @@
             <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
                 <p>{{dom.appname}}</p>
                 <div>
-                    <van-rate :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                    <van-rate style="margin-right: .2rem" :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
             </router-link>
@@ -55,9 +55,7 @@ export default {
                 uid: localStorage.getItem('cp_uid'),
                 appid
             })
-            setTimeout(() => {
-                window.location.href = url
-            },800)
+            window.location.href = url
         },
         async getsearchlist() {
             const { data } = await getsearchlist({

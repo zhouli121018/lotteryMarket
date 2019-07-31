@@ -26,8 +26,8 @@ export default {
                 email: this.email
             };
             const { data }    = await findpassbyemail(obj)
+            this.$toast(data.message)
             if(data.errorcode == 0) {
-                this.$toast(data.message)
                 setTimeout(() => {
                     this.$router.replace('/home/index')
                 },2000)

@@ -17,7 +17,7 @@
               <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
                 <p>{{dom.appname}}</p>
                 <div>
-                  <van-rate :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                  <van-rate style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
               </router-link>
@@ -41,8 +41,12 @@ export default {
         }
     },
     methods: {
+      jumpTo(url) {
+        window.location.href = url
+      },
       tabList() {
         this.type = this.titleList[this.active].ranktype
+        this.lottypeList = []
         this.getrankLists()
       },
       async getrankDescs() {
