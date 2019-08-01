@@ -29,10 +29,7 @@ export default {
     },
     methods: {
         async getapprolist() {
-            const { data } = await getapprolist({
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid')
-            })
+            const { data } = await getapprolist({})
             this.info = data
         }
     },

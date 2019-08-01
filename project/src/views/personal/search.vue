@@ -51,16 +51,12 @@ export default {
         //点击安装
         async clickAppurl(url,appid) {
             const { data } = await clickinstall({
-                sid: localStorage.getItem('cp_sid'),
-                uid: localStorage.getItem('cp_uid'),
                 appid
             })
             window.location.href = url
         },
         async getsearchlist() {
             const { data } = await getsearchlist({
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid'),
                 keyword: this.keyword
             })
             this.lottypeList = data.list.map(item => {

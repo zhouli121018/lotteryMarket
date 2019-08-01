@@ -35,10 +35,7 @@ export default {
             this.$router.go(-1)
         },
         async gettuijiancode() {
-            const { data } = await gettuijiancode({
-                sid: localStorage.getItem('cp_sid'),
-                uid: localStorage.getItem('cp_uid')
-            })
+            const { data } = await gettuijiancode({})
             if(data.errorcode == 0) {
                 this.info = data
             }

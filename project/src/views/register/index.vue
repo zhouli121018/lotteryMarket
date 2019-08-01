@@ -42,12 +42,6 @@ export default {
     methods: {
         async gethome() {
             let obj = {};
-            if(localStorage.getItem('cp_sid')){
-                obj.sid = localStorage.getItem('cp_sid')
-            }
-            if(localStorage.getItem('cp_uid')){
-                obj.uid = localStorage.getItem('cp_uid')
-            }
             const { data } = await gethome(obj)
             this.$store.dispatch('set_homedata',data)
             this.$store.dispatch('set_apkurl',data.apkurl)

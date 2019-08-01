@@ -50,10 +50,7 @@ export default {
         this.getrankLists()
       },
       async getrankDescs() {
-        const { data } = await getrankDesc({
-          uid: localStorage.getItem('cp_uid'),
-          sid: localStorage.getItem('cp_sid'),
-        })
+        const { data } = await getrankDesc({})
         this.titleList = data.ranktype
         this.type = this.titleList[0].ranktype
         this.advs = data.advs
@@ -61,8 +58,6 @@ export default {
       //列表
       async getrankLists() {
         const { data } = await getrankList({
-          uid: localStorage.getItem('cp_uid'),
-          sid: localStorage.getItem('cp_sid'),
           ranktype: this.titleList[this.active].ranktype
         })
         this.lottypeList = data.list.map(item => {

@@ -77,10 +77,7 @@ export default {
     methods: {
         //收入明细
         async getincomelist() {
-            const { data } = await getincomelist({
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid')
-            })
+            const { data } = await getincomelist({})
             this.info = data
         },
         beforeClose_tk(action,done){
@@ -98,8 +95,6 @@ export default {
         //提款
         async submittikuan() {
             const { data } = await submittikuan({
-                sid: localStorage.getItem('sid'),
-                uid: localStorage.getItem('uid'),
                 alipay:this.alipay
             })
             if(data.errorcode == 0) {

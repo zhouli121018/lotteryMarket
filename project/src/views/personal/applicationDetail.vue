@@ -59,17 +59,13 @@ export default {
                 return 
             }
             const { data } = await complaint({
-                appid: this.$route.query.appid,
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid')
+                appid: this.$route.query.appid
             })
             this.$toast(data.message)
         },
         //点击安装
         async clickAppurl(url,appid) {
             const { data } = await clickinstall({
-                sid: localStorage.getItem('cp_sid'),
-                uid: localStorage.getItem('cp_uid'),
                 appid
             })
             window.location.href = url
@@ -88,9 +84,7 @@ export default {
         //获取详情
         async getappdesc() {
             const { data } = await getappdesc({
-                appid: this.$route.query.appid,
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid')
+                appid: this.$route.query.appid
             })
             this.info = data
             this.score = this.info.score
@@ -99,8 +93,6 @@ export default {
         //平星数
         async comment(){
             const { data } = await comments({
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid'),
                 star: this.star,
                 appid: this.$route.query.appid
             })

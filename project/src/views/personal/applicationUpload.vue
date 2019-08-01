@@ -68,8 +68,6 @@ export default {
                 return 
             }
             const { data } = await uploadapp({
-                uid: localStorage.getItem('cp_uid'),
-                sid: localStorage.getItem('cp_sid'),
                 type: this.type,
                 appname: this.appname,
                 appdesc: this.appdesc,
@@ -92,8 +90,12 @@ export default {
             formData.append('image', file.file)
             formData.append('token',now.getTime())
             formData.append('data',md5_data)
-            formData.append('sid',localStorage.getItem('cp_sid'))
-            formData.append('uid',localStorage.getItem('cp_uid'))
+            if(localStorage.getItem('cp_sid')){
+                formData.append('sid',localStorage.getItem('cp_sid'))
+            }
+            if(localStorage.getItem('cp_uid')){
+                formData.append('uid',localStorage.getItem('cp_uid'))
+            }
             const { data } = await uploadimg(formData)
             this.iconurl = data.url
         },

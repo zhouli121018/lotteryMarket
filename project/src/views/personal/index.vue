@@ -96,10 +96,7 @@ export default {
             this.$router.push(path);
         },
         async getaccount() {
-            const { data } = await getaccount({
-                sid: localStorage.getItem('cp_sid'),
-                uid: localStorage.getItem('cp_uid')
-            })
+            const { data } = await getaccount({})
             this.info = data
         },
         goAbout(){

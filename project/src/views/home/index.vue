@@ -120,8 +120,6 @@ export default {
     //点击安装
     async clickAppurl(url,appid) {
       const { data } = await clickinstall({
-        sid: localStorage.getItem('cp_sid'),
-        uid: localStorage.getItem('cp_uid'),
         appid
       })
       window.location.href = url
@@ -136,8 +134,6 @@ export default {
     //应用列表
     async gethomeapp() {
       const { data } = await gethomeapp({
-        sid: localStorage.getItem('cp_sid')?localStorage.getItem('cp_sid'):'',
-        uid: localStorage.getItem('cp_uid')?localStorage.getItem('cp_uid'):'',
         type: this.type,
         lastid: this.lastid
       })
@@ -177,7 +173,6 @@ export default {
     },
     jumpTo( path, islink ){
       console.log(path)
-      this.$router.push(path)
       if(path.indexOf('/')==0){
         this.$router.push(path)
       }else{
@@ -189,12 +184,6 @@ export default {
     },
     async gethome() {
       let obj = {};
-      if(localStorage.getItem('cp_sid')){
-        obj.sid = localStorage.getItem('cp_sid')
-      }
-      if(localStorage.getItem('cp_uid')){
-        obj.uid = localStorage.getItem('cp_uid')
-      }
       const { data } = await gethome(obj)
       this.isLoading = false;
       this.advs = data.advs 
