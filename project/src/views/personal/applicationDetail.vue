@@ -2,7 +2,7 @@
     <div class="container" v-if="info">
         <title-bar :title_name="info.name" />
         <div class="assistant_list">
-            <img :src="$https+info.icon" alt="">
+            <img :src="info.icon" alt="">
             <div>
             <p>{{info.name}}</p>
             <div>
@@ -87,6 +87,9 @@ export default {
                 appid: this.$route.query.appid
             })
             this.info = data
+            if(this.info.icon.indexOf('http')!=0){
+                this.info.icon = this.$https+this.info.icon;
+            }
             this.score = this.info.score
             this.info.score = Math.round(this.info.score)
         },

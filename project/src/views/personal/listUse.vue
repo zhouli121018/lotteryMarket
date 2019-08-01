@@ -13,7 +13,7 @@
         <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.rankname">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
-              <img :src="$https+dom.img" alt="">
+              <img :src="dom.img" alt="">
               <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
                 <p>{{dom.appname}}</p>
                 <div>
@@ -21,7 +21,7 @@
                 </div>
                 <p>{{dom.appdesc}}</p>
               </router-link>
-              <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl)">安装</van-button>
+              <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
             </div>
           </van-tab>
         </van-tabs>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getrankDesc, getrankList } from '@/api'
+import { getrankDesc, getrankList,clickinstall } from '@/api'
 export default {
     data() {
         return {
@@ -41,6 +41,13 @@ export default {
         }
     },
     methods: {
+      //点击安装
+      async clickAppurl(url,appid) {
+        const { data } = await clickinstall({
+          appid
+        })
+        window.location.href = url
+      },
       jumpTo(url) {
         window.location.href = url
       },
@@ -66,9 +73,14 @@ export default {
             appstar: Math.round(item.appstar)
           }
         })
+        this.lottypeList.forEach(val=>{
+          if(val.img.indexOf('http')!=0){
+            val.img = this.$https+val.img;
+          }
+        })
       }
     },
-    activated() {
+    created(){
       this.getrankDescs().then(() => {
         this.getrankLists()
       })

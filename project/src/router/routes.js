@@ -81,7 +81,7 @@ export default [
                 component: _import('personal/listUse'),
                 meta: {
                     title: '排行榜',
-                    cache: true
+                    cache: false
                 }
             },
             {//收入明细

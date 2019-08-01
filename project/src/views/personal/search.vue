@@ -15,8 +15,8 @@
             <span>热搜应用: </span>
             <span @click="onSearchs(item)" v-for="(item,index) in hotlist" :key="index">{{item}}</span>
         </div>
-        <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index" v-if="lottypeList.length > 0">
-            <img :src="$https+dom.img" alt="">
+        <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index" >
+            <img :src="dom.img" alt="">
             <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
                 <p>{{dom.appname}}</p>
                 <div>
@@ -26,7 +26,7 @@
             </router-link>
             <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
         </div>
-        <div v-else class="no_data">暂无数据</div>
+        <div v-if="lottypeList.length == 0" class="no_data">暂无数据</div>
     </div>
 </template>
 
@@ -66,6 +66,11 @@ export default {
                 }
             })
             this.hotlist = data.hotlist
+            this.lottypeList.forEach(val=>{
+                if(val.img.indexOf('http')!=0){
+                val.img = this.$https+val.img;
+                }
+            })
         }
     },
     mounted() {
