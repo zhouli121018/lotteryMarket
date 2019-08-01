@@ -99,7 +99,7 @@ export default [
                 component: _import('personal/search'),
                 meta: {
                     title: '搜索',
-                    cache: true
+                    cache: false
                 }
             },
             {//我的推荐页
@@ -159,7 +159,7 @@ export default [
                 component: _import('login/index'),
                 meta: {
                     title: '登录',
-                    cache: true
+                    cache: false
                 }
             },
             {
@@ -168,7 +168,7 @@ export default [
                 component: _import('login/verification'),
                 meta: {
                     title: '验证码登录',
-                    cache: true
+                    cache: false
                 }
             }
         ]

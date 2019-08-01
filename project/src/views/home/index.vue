@@ -210,6 +210,23 @@ export default {
         this.is_ios = true;
       }
     }
+    //判断 浏览器类型
+     if ( /(Android)/i.test(navigator.userAgent)) {
+      if(!navigator.userAgent.match(/lotapkinstalled/i)){
+        Dialog.confirm({
+          title: '温馨提示',
+          cancelButtonText:'关闭',
+          confirmButtonText:'安装/升级',
+          message: '请务必安装/升级APP以保持最新版本。'
+        }).then(() => {
+          // on confirm
+          document.getElementById('download_btn').click();
+        }).catch(() => {
+          
+          // on cancel
+        });
+      }
+    }
 
     if(this.$route.query.cid){
       localStorage['cid'] = this.$route.query.cid;
