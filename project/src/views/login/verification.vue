@@ -18,19 +18,17 @@ export default {
     },
     methods: {
         async loginbyvcode () {
-            if(!this.email && /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)){
-                Toast('请输入正确的邮箱！');
-                return;
-            }
-            let obj = {
-                email: this.email
-            };
-            const { data }    = await findpassbyemail(obj)
-            this.$toast(data.message)
-            if(data.errorcode == 0) {
-                setTimeout(() => {
-                    this.$router.replace('/home/index')
-                },2000)
+            if(this.email != "" && !this.email && /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email)){
+                this.$toast('请输入正确的邮箱！');
+                return false
+            }else {
+                const { data }    = await findpassbyemail(this.email)
+                this.$toast(data.message)
+                if(data.errorcode == 0) {
+                    setTimeout(() => {
+                        this.$router.replace('/home/index')
+                    },2000)
+                }
             }
         },
     },
