@@ -19,7 +19,8 @@
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
         <van-notice-bar v-if="notices.length>0"
-          color="#6A6A6A"
+          color="#1989fa"
+          background="#3996FF"
           left-icon="volume-o"
         >
         <span v-for="n in notices" :key="n.noticeid" @click="goNotice(n.noticeid)" style="margin-right:1rem;">{{n.title}}</span>
@@ -37,13 +38,13 @@
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
               <img :src="dom.img" alt="">
-              <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid,appname:dom.appname}}">
+              <div @click="toappdetail(dom.appid,dom.appname)">
                 <p>{{dom.appname}}</p>
                 <div>
                   <van-rate style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
-              </router-link>
+              </div>
               <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
             </div>
           </van-tab>
@@ -109,6 +110,16 @@ export default {
     }
   },
   methods: {
+    toappdetail(appid,appname) {
+      if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
+        this.$toast('请先登录!')
+        setTimeout(() => {
+            this.$router.push('/login/index')
+          },1200)
+        return
+      }
+      this.$router.push(`/personal/applicationDetail?appid=${appid}&appname=${appname}`)
+    },
     goNotice(noticeid){
       this.$router.push({
         path:'/home/announcement/detail',
@@ -391,10 +402,7 @@ export default {
   .gonggao_box .grow_1{
     flex-grow:1;
   }
-  .grow_1 .van-notice-bar{
-    padding:0;
-    background:none !important;
-  }
+
   /deep/ .van-notice-bar
     border-bottom 1px solid #CFCFCF !important
     margin-top .2rem

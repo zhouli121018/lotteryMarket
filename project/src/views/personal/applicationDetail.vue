@@ -114,7 +114,10 @@ export default {
 .dialog_content_input .van-rate
     padding 1rem 0
 .last_p
-    padding-bottom 2.8rem
+    width 100%
+    padding .2rem .2rem
+    box-sizing border-box
+    padding-bottom 2.8rem    
 .fixed_btn
     width 100%
     position fixed

@@ -17,13 +17,13 @@
         </div>
         <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index" >
             <img :src="dom.img" alt="">
-            <router-link tag="div" :to="{name: 'applicationDetail',query: {appid: dom.appid}}">
+            <div @click="toappdetail(dom.appid,dom.appname)">
                 <p>{{dom.appname}}</p>
                 <div>
                     <van-rate style="margin-right: .2rem" :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
-            </router-link>
+            </div>
             <van-button size="small" plain type="primary" @click="clickAppurl(dom.appurl,dom.appid)">安装</van-button>
         </div>
         <div v-if="lottypeList.length == 0" class="no_data">暂无数据</div>
@@ -41,6 +41,16 @@ export default {
         }
     },
     methods: {
+        toappdetail(appid,appname) {
+            if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
+            this.$toast('请先登录!')
+            setTimeout(() => {
+            this.$router.push('/login/index')
+          },1200)
+            return
+            }
+            this.$router.push(`/personal/applicationDetail?appid=${appid}&appname=${appname}`)
+        },
         onSearch() {
             this.getsearchlist()
         },

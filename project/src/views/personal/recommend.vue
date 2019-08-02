@@ -68,7 +68,7 @@ export default {
     line-height .6rem
     text-align justify
 .fonts
-    margin-top 1.6rem
+    margin-top .8rem
     font-size 0.5rem
 .recommend_content
     width 90%
