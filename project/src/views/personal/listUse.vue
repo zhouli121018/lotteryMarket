@@ -9,7 +9,14 @@
             </div>
           </van-swipe-item>
         </van-swipe> 
-        <div class="xian"></div>
+        <div style="height:.2rem;"></div>
+        <van-notice-bar style="height:.4rem;overflow:hidden;"
+          background="#F5F5F5"
+          color="#f5f5f5"
+        >
+        <div style="width:1000px"></div>
+        </van-notice-bar>
+        <!-- <div class="xian"></div> -->
         <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.rankname">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
@@ -17,7 +24,7 @@
               <div @click="toappdetail(dom.appid,dom.appname)">
                 <p>{{dom.appname}}</p>
                 <div>
-                  <van-rate style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                  <van-rate allow-half style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
               </div>
@@ -33,6 +40,7 @@ import { getrankDesc, getrankList,clickinstall } from '@/api'
 export default {
     data() {
         return {
+            isFirstEnter: false,
             active: 0,
             titleList: ["总榜","低彩频助手","高彩频助手","足彩助手"],
             advs: [],
@@ -50,7 +58,7 @@ export default {
           return
         }
         this.$router.push(`/personal/applicationDetail?appid=${appid}&appname=${appname}`)
-    },
+      },
       //点击安装
       async clickAppurl(url,appid) {
         const { data } = await clickinstall({
@@ -80,7 +88,7 @@ export default {
         this.lottypeList = data.list.map(item => {
           return {
             ...item,
-            appstar: Math.round(item.appstar)
+            appstar: parseFloat(item.appstar)
           }
         })
         this.lottypeList.forEach(val=>{
@@ -91,10 +99,18 @@ export default {
       }
     },
     created(){
-      this.getrankDescs().then(() => {
-        this.getrankLists()
-      })
-    }
+      this.isFirstEnter = true;
+    },
+    activated(){  
+      if(!this.$store.getters.isback || this.isFirstEnter){
+        this.active = 0;
+        this.getrankDescs().then(() => {
+          this.getrankLists()
+        })
+      }
+      this.isFirstEnter=false;
+      this.$store.dispatch('set_isback',false)
+    },
 }
 </script>
 

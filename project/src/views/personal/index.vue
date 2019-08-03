@@ -103,23 +103,15 @@ export default {
             this.$router.push('/personal/about');
         },
     },
-    created() {
-        this.isFirstEnter=true;
+    created(){
+      this.isFirstEnter = true;
     },
-    beforeRouteEnter(to, from, next) {
-      if (from.name == 'openingMember' || from.name == 'recommend' || from.name == 'earnMoney' || from.name == 'openRemind' || from.name == 'freeUse' || from.name == 'about') { // 这个name是下一级页面的路由name
-        to.meta.isBack = true; 
-      }
-      next()
-    },
-    activated(){
-        if(this.$route.meta.isBack){
-            this.$store.dispatch('set_isback',true)
-        }
-        this.$route.meta.isBack=false;
+    activated(){  
+      if(!this.$store.getters.isback || this.isFirstEnter){
         this.getaccount();
-        this.isFirstEnter=false;
-        this.$store.dispatch('set_isback',false)
+      }
+      this.isFirstEnter=false;
+      this.$store.dispatch('set_isback',false)
     },
 }
 </script>

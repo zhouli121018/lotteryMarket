@@ -18,12 +18,12 @@
           </van-swipe-item>
         </van-swipe>
         <a :href="banner_url" v-show="false" id="banner_a">1</a>
-        <van-notice-bar v-if="notices.length>0"
-          color="#1989fa"
-          background="#3996FF"
+        <van-notice-bar v-if="notices.length>0" style="padding-left:.2rem;padding-right:.2rem;"
+          color="#000"
+          background="#F5F5F5"
           left-icon="volume-o"
         >
-        <span v-for="n in notices" :key="n.noticeid" @click="goNotice(n.noticeid)" style="margin-right:1rem;">{{n.title}}</span>
+        <span v-for="n in notices" :key="n.noticeid" @click="goNotice(n.noticeid)" style="margin-right:80px;color:#666;">{{n.title}}</span>
         </van-notice-bar>
         <van-row :gutter="30" class="list_box text_center">
           <van-col span="6" style="width:23%;padding-left:0;padding-right:0" v-for="(l,index) in list" :key="index">
@@ -41,7 +41,7 @@
               <div @click="toappdetail(dom.appid,dom.appname)">
                 <p>{{dom.appname}}</p>
                 <div>
-                  <van-rate style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                  <van-rate allow-half style="margin-right: .2rem" :size="14" v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
               </div>
@@ -153,15 +153,16 @@ export default {
         this.lottypeList = data.list.map(item => {
           return {
             ...item,
-            appstar: Math.round(item.appstar)
+            appstar: parseFloat(item.appstar)
           }
         })
-          
       }else {
           data.list.map(item=>{
+            item.appstar = parseFloat(item.appstar)
             this.lottypeList.push(item)
           })
       }  
+      console.log(this.lottypeList)
       this.lottypeList.forEach(val=>{
         if(val.img.indexOf('http')!=0){
           val.img = this.$https+val.img;
@@ -271,11 +272,14 @@ export default {
     })
   },
   activated(){  
-    this.lastid = 0;
     this.show_lt = false;
-    this.gethome().then(() => {
-      this.gethomeapp()
-    })
+    if(!this.$store.getters.isback || this.isFirstEnter){
+      this.lastid = 0;
+      this.show_lt = false;
+      this.gethome().then(() => {
+        this.gethomeapp()
+      })
+    }
     this.isFirstEnter=false;
     this.$store.dispatch('set_isback',false)
     
@@ -303,6 +307,7 @@ export default {
   height .42rem
   background url('../../assets/icn_message.png') no-repeat
   background-size contain
+  margin-right:.18rem
 #home_page .van-nav-bar
   background-color #EBEBED
 #home_page .van-nav-bar .van-icon
@@ -404,7 +409,7 @@ export default {
   }
 
   /deep/ .van-notice-bar
-    border-bottom 1px solid #CFCFCF !important
+    // border-bottom 1px solid #CFCFCF !important
     margin-top .2rem
   .gonggao_img{
     width:20px;

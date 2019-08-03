@@ -20,7 +20,7 @@
             <div @click="toappdetail(dom.appid,dom.appname)">
                 <p>{{dom.appname}}</p>
                 <div>
-                    <van-rate style="margin-right: .2rem" :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
+                    <van-rate allow-half style="margin-right: .2rem" :size="14" readonly v-model="dom.appstar" /> 安装({{dom.appinsnum}})
                 </div>
                 <p>{{dom.appdesc}}</p>
             </div>
@@ -37,7 +37,8 @@ export default {
         return {
             lottypeList: [],
             keyword: '',
-            hotlist: []
+            hotlist: [],
+            isFirstEnter:false,
         }
     },
     methods: {
@@ -72,7 +73,7 @@ export default {
             this.lottypeList = data.list.map(item => {
                 return {
                     ...item,
-                    appstar: Math.round(item.appstar)
+                    appstar: parseFloat(item.appstar)
                 }
             })
             this.hotlist = data.hotlist
@@ -83,9 +84,17 @@ export default {
             })
         }
     },
-    mounted() {
+    created(){
+      this.isFirstEnter = true;
+    },
+    activated(){  
+      if(!this.$store.getters.isback || this.isFirstEnter){
+        this.keyword = '';
         this.getsearchlist()
-    }
+      }
+      this.isFirstEnter=false;
+      this.$store.dispatch('set_isback',false)
+    },
 }
 </script>
 

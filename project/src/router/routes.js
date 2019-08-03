@@ -81,7 +81,7 @@ export default [
                 component: _import('personal/listUse'),
                 meta: {
                     title: '排行榜',
-                    cache: false
+                    cache: true
                 }
             },
             {//收入明细
@@ -99,7 +99,7 @@ export default [
                 component: _import('personal/search'),
                 meta: {
                     title: '搜索',
-                    cache: false
+                    cache: true
                 }
             },
             {//我的推荐页

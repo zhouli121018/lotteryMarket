@@ -6,7 +6,7 @@
             <div>
             <p>{{info.name}}</p>
             <div>
-                <van-rate style="margin-right: .2rem" :size="14" readonly  v-model="info.score" />
+                <van-rate allow-half style="margin-right: .2rem" :size="14" readonly  v-model="info.score" />
             </div>
             <p>{{score}}分   {{info.appinsnum}}次下载</p>
             </div>
@@ -91,7 +91,7 @@ export default {
                 this.info.icon = this.$https+this.info.icon;
             }
             this.score = this.info.score
-            this.info.score = Math.round(this.info.score)
+            this.info.score = parseFloat(this.info.score)
         },
         //平星数
         async comment(){
