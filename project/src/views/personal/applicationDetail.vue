@@ -47,15 +47,17 @@ export default {
         //点击好评
         commentss() {
             if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
-                this.$toast('请先登录再评价')
-                return 
+                sessionStorage.setItem('last_login_url',this.$route.fullPath)
+                this.$router.push('/login/index')
+                return
             }
             this.isShow=true
         },
         //应用投诉
         async complaints() {
             if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
-                this.$toast('请先登录再投诉')
+                sessionStorage.setItem('last_login_url',this.$route.fullPath)
+                this.$router.push('/login/index')
                 return 
             }
             const { data } = await complaint({
@@ -102,7 +104,7 @@ export default {
             this.$toast(data.message)
         }
     },
-    mounted() {
+    created() {
         this.getappdesc()
     }
 }
@@ -118,6 +120,7 @@ export default {
     padding .2rem .2rem
     box-sizing border-box
     padding-bottom 2.8rem    
+    text-align: justify
 .fixed_btn
     width 100%
     position fixed

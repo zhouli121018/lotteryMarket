@@ -50,13 +50,6 @@ export default {
     },
     methods: {
       toappdetail(appid,appname) {
-        if(!localStorage.getItem('cp_sid') || !localStorage.getItem('cp_uid')) {
-          this.$toast('请先登录!')
-          setTimeout(() => {
-            this.$router.push('/login/index')
-          },1200)
-          return
-        }
         this.$router.push(`/personal/applicationDetail?appid=${appid}&appname=${appname}`)
       },
       //点击安装

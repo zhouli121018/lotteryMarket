@@ -74,7 +74,12 @@ export default {
             if(data.errorcode == 0) {
                 window.localStorage['cp_uid'] = data.uid
                 window.localStorage['cp_sid'] = data.sid
-                this.$router.replace('/home/index')
+                let url = '/home/index';
+                if(sessionStorage.getItem('last_login_url')){
+                    url = sessionStorage.getItem('last_login_url');
+                    sessionStorage.removeItem('last_login_url');
+                }
+                this.$router.replace(url)
             }
         }
     },
