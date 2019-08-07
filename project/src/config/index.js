@@ -5,7 +5,7 @@ export default {
     },
     request: {
         // www.yeev.vip
-        apiURL: 'http://sscby.cn/cpmarket', // 项目线上域名
+        apiURL: '/cpmarket', // 项目线上域名
         timeout: 100000
             // http://sscby.cn/cpmarket/                        // 请求超时时间
     }

@@ -135,7 +135,7 @@ export default [
                 component: _import('personal/applicationDetail'),
                 meta: {
                     title: '彩票预测大师',
-                    cache: false
+                    cache: true
                 }
             },
             {

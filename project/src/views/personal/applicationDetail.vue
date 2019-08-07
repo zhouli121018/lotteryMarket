@@ -40,7 +40,8 @@ export default {
             isShow: false,
             star: 0,
             info: null,
-            score: 0
+            score: 0,
+            isFirstEnter:false
         }
     },
     methods: {
@@ -104,20 +105,35 @@ export default {
             this.$toast(data.message)
         }
     },
-    created() {
+    created(){
+      this.isFirstEnter = true;
+    },
+    activated(){  
+      if(!this.$store.getters.isback || this.isFirstEnter){
         this.getappdesc()
-    }
+      }
+      this.isFirstEnter=false;
+      this.$store.dispatch('set_isback',false)
+    },
 }
 </script>
 
 <style lang="stylus" scoped> 
+.assistant_list >div >div{
+    padding:0;
+}
+.assistant_list img{
+    width:1.8rem;
+    max-height:1.8rem;
+}
+
 .dialog_content_input
     text-align center
 .dialog_content_input .van-rate
     padding 1rem 0
 .last_p
     width 100%
-    padding .2rem .2rem
+    padding .2rem .4rem
     box-sizing border-box
     padding-bottom 2.8rem    
     text-align: justify

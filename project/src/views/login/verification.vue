@@ -22,8 +22,8 @@ export default {
                 this.$toast('请输入正确的邮箱！');
                 return false
             }else {
-                const { data }    = await findpassbyemail(this.email)
-                this.$toast(data.message)
+                const { data } = await findpassbyemail({'email':this.email})
+                // this.$toast(data.message)
                 if(data.errorcode == 0) {
                     setTimeout(() => {
                         this.$router.replace('/home/index')
