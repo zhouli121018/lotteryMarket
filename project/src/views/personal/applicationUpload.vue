@@ -16,7 +16,7 @@
         </div>
         <div class="van_box">
             <span>图标 : </span>
-            <van-uploader v-model="fileList" :after-read="afterRead" :max-count="2"/>
+            <van-uploader v-model="fileList" :after-read="afterRead"  @delete="deletePic" :max-count="1"/>
         </div>
         <div class="van_box">
             <van-field label="一句话描述 : " type="text" maxlength="10" clearable v-model="appdesc" placeholder="请输入一句话描述" />
@@ -98,6 +98,9 @@ export default {
             }
             const { data } = await uploadimg(formData)
             this.iconurl = data.url
+        },
+        deletePic(){
+            this.iconurl = ''
         },
         isShow() {
             this.show = true

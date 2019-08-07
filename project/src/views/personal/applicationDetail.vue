@@ -86,8 +86,15 @@ export default {
         },
         //获取详情
         async getappdesc() {
+            let device = 0;
+            let u = navigator.userAgent, app = navigator.appVersion;
+            let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+            let isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if (isAndroid)device = 0
+            if (isIOS)device = 1
             const { data } = await getappdesc({
-                appid: this.$route.query.appid
+                appid: this.$route.query.appid,
+                device: device
             })
             this.info = data
             if(this.info.icon.indexOf('http')!=0){
