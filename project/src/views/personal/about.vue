@@ -7,7 +7,7 @@ import {getabout } from '@/api'
 export default {
     data(){
         return {
-            title_name: '关于彩票工具市场',
+            title_name: '关于彩票工具大全',
             title:'',
             content:''
         }

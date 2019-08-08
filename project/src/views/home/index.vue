@@ -4,7 +4,7 @@
       <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
         <div class="fixed_title">
           <van-nav-bar
-            title="彩票工具市场"
+            title="彩票工具大全"
             @click-right="onClickRight"
           >
             <van-icon name="search" slot="right"/>

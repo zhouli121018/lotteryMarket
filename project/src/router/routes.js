@@ -23,7 +23,7 @@ export default [
                 name:'home',
                 component: _import('home/index'),
                 meta:{
-                    title:'彩票工具市场',
+                    title:'彩票工具大全',
                     cache: true
                 }
             },
@@ -134,7 +134,7 @@ export default [
                 name: 'applicationDetail',
                 component: _import('personal/applicationDetail'),
                 meta: {
-                    title: '彩票预测大师',
+                    title: '彩票工具大全',
                     cache: true
                 }
             },
@@ -143,7 +143,7 @@ export default [
                 name:'about',
                 component: _import('personal/about'),
                 meta:{
-                    title:'关于彩票工具市场',
+                    title:'关于彩票工具大全',
                     cache: false
                 }
             }
