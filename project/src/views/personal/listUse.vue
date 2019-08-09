@@ -57,10 +57,20 @@ export default {
         const { data } = await clickinstall({
           appid
         })
-        window.location.href = url
+        window.open(url);
+        // window.location.href = url
       },
-      jumpTo(url) {
-        window.location.href = url
+      jumpTo(path) {
+        // window.location.href = url
+        if(path.indexOf('/')==0){
+          this.$router.push(path)
+        }else{
+          window.open(path);
+          // this.banner_url = path;
+          // this.$nextTick(()=>{
+          //   document.getElementById('banner_a').click();
+          // })
+        }
       },
       tabList() {
         this.type = this.titleList[this.active].ranktype

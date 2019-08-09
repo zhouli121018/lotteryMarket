@@ -71,7 +71,8 @@ export default {
             const { data } = await clickinstall({
                 appid
             })
-            window.location.href = url
+            // window.location.href = url
+            window.open(url);
         },
         beforeClose(action,done){
             if(action == 'confirm'){

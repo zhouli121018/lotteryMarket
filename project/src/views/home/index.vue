@@ -133,7 +133,8 @@ export default {
       const { data } = await clickinstall({
         appid
       })
-      window.location.href = url
+      // window.location.href = url
+      window.open(url);
     },
     //点击选项
     tabList() {
@@ -196,7 +197,7 @@ export default {
       this.$router.push('/personal/search')
     },
     jumpTo( path, islink ){
-      console.log(path)
+      // console.log(path)
       if(path.indexOf('/')==0){
         this.$router.push(path)
       }else{

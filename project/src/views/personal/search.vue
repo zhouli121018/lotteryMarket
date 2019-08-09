@@ -57,7 +57,8 @@ export default {
             const { data } = await clickinstall({
                 appid
             })
-            window.location.href = url
+            // window.location.href = url
+            window.open(url);
         },
         async getsearchlist() {
             let device = 0;
