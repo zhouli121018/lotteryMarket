@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <a :href="banner_url" target="_blank" v-show="false" id="banner_listuse">1</a>
         <title-bar title_name="排行榜" />
         <!-- <img class="list_banner" src="../../assets/banner.png" alt=""> -->
         <van-swipe :autoplay="3000" indicator-color="#007BC2">
@@ -45,7 +46,8 @@ export default {
             titleList: ["总榜","低彩频助手","高彩频助手","足彩助手"],
             advs: [],
             type: '',
-            lottypeList: []
+            lottypeList: [],
+            banner_url:''
         }
     },
     methods: {
@@ -53,23 +55,28 @@ export default {
         this.$router.push(`/personal/applicationDetail?appid=${appid}&appname=${appname}`)
       },
       //点击安装
-      async clickAppurl(url,appid) {
+      clickAppurl(url,appid) {
+        this.clickAppurl_data(appid)
+        // window.location.href = url
+        this.banner_url = url;
+        this.$nextTick(()=>{
+            document.getElementById('banner_listuse').click();
+        })
+      },
+      async clickAppurl_data(appid){
         const { data } = await clickinstall({
           appid
         })
-        window.open(url);
-        // window.location.href = url
       },
       jumpTo(path) {
         // window.location.href = url
         if(path.indexOf('/')==0){
           this.$router.push(path)
         }else{
-          window.open(path);
-          // this.banner_url = path;
-          // this.$nextTick(()=>{
-          //   document.getElementById('banner_a').click();
-          // })
+          this.banner_url = path;
+          this.$nextTick(()=>{
+              document.getElementById('banner_listuse').click();
+          })
         }
       },
       tabList() {

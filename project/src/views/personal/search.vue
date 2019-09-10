@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <a :href="banner_url" target="_blank" v-show="false" id="banner_search">1</a>
         <title-bar title_name="搜索" />
         <van-search
             v-model="keyword"
@@ -39,6 +40,7 @@ export default {
             keyword: '',
             hotlist: [],
             isFirstEnter:false,
+            banner_url:''
         }
     },
     methods: {
@@ -53,12 +55,18 @@ export default {
             this.getsearchlist()
         },
         //点击安装
-        async clickAppurl(url,appid) {
+        clickAppurl(url,appid) {
+            this.clickAppurl_data(appid)
+            // window.location.href = url
+            this.banner_url = url;
+            this.$nextTick(()=>{
+                document.getElementById('banner_search').click();
+            })
+        },
+        async clickAppurl_data(appid){
             const { data } = await clickinstall({
                 appid
             })
-            // window.location.href = url
-            window.open(url);
         },
         async getsearchlist() {
             let device = 0;

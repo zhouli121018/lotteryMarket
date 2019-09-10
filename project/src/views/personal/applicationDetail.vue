@@ -1,5 +1,6 @@
 <template>
     <div class="container" v-if="info">
+        <a :href="banner_url" target="_blank" v-show="false" id="banner_detail">1</a>
         <title-bar :title_name="info.name" />
         <div class="assistant_list">
             <img :src="info.icon" alt="">
@@ -41,7 +42,8 @@ export default {
             star: 0,
             info: null,
             score: 0,
-            isFirstEnter:false
+            isFirstEnter:false,
+            banner_url:''
         }
     },
     methods: {
@@ -67,12 +69,18 @@ export default {
             this.$toast(data.message)
         },
         //点击安装
-        async clickAppurl(url,appid) {
+        async clickAppurl_data(appid) {
             const { data } = await clickinstall({
                 appid
             })
             // window.location.href = url
-            window.open(url);
+        },
+        clickAppurl(url,appid){
+            this.clickAppurl_data(appid)
+            this.banner_url = url;
+            this.$nextTick(()=>{
+                document.getElementById('banner_detail').click();
+            })
         },
         beforeClose(action,done){
             if(action == 'confirm'){

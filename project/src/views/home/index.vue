@@ -17,7 +17,7 @@
             </div>
           </van-swipe-item>
         </van-swipe>
-        <a :href="banner_url" v-show="false" id="banner_a">1</a>
+        <a :href="banner_url" target="_blank" v-show="false" id="banner_a">1</a>
         <van-notice-bar v-if="notices.length>0" style="padding-left:.2rem;padding-right:.2rem;"
           color="#000"
           background="#F5F5F5"
@@ -129,12 +129,18 @@ export default {
       })
     },
     //点击安装
-    async clickAppurl(url,appid) {
+    clickAppurl(url,appid) {
+      this.clickAppurl_data(appid);
+      // window.location.href = url
+      this.banner_url = url;
+      this.$nextTick(()=>{
+        document.getElementById('banner_a').click();
+      })
+    },
+    async clickAppurl_data(appid){
       const { data } = await clickinstall({
         appid
       })
-      // window.location.href = url
-      window.open(url);
     },
     //点击选项
     tabList() {
@@ -170,7 +176,6 @@ export default {
             this.lottypeList.push(item)
           })
       }  
-      console.log(this.lottypeList)
       this.lottypeList.forEach(val=>{
         if(val.img.indexOf('http')!=0){
           val.img = this.$https+val.img;
