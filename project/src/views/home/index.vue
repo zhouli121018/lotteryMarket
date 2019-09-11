@@ -34,6 +34,8 @@
           </van-col>
         </van-row>
         <div class="xian"></div>
+
+        <a :href="app_click_url" target="_blank" v-show="false" id="app_click">1</a>
         <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">
@@ -106,7 +108,8 @@ export default {
       lottype: [],
       lottypeList: [],
       type: '',
-      regpiddes: ''
+      regpiddes: '',
+      app_click_url:''
     }
   },
   methods: {
@@ -132,9 +135,9 @@ export default {
     clickAppurl(url,appid) {
       this.clickAppurl_data(appid);
       // window.location.href = url
-      this.banner_url = url;
+      this.app_click_url = url;
       this.$nextTick(()=>{
-        document.getElementById('banner_a').click();
+        document.getElementById('app_click').click();
       })
     },
     async clickAppurl_data(appid){
