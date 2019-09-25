@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <a :href="banner_url" target="_blank" v-show="false" id="banner_search">1</a>
+        <a :href="banner_url" v-show="false" id="banner_search">1</a>
         <title-bar title_name="搜索" />
         <van-search
             v-model="keyword"

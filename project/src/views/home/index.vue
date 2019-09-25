@@ -17,7 +17,7 @@
             </div>
           </van-swipe-item>
         </van-swipe>
-        <a :href="banner_url" target="_blank" v-show="false" id="banner_a">1</a>
+        <a :href="banner_url" v-show="false" id="banner_a">1</a>
         <van-notice-bar v-if="notices.length>0" style="padding-left:.2rem;padding-right:.2rem;"
           color="#000"
           background="#F5F5F5"
@@ -35,7 +35,7 @@
         </van-row>
         <div class="xian"></div>
 
-        <a :href="app_click_url" target="_blank" v-show="false" id="app_click">1</a>
+        <a :href="app_click_url"  v-show="false" id="app_click">1</a>
         <van-tabs v-model="active" @click="tabList" color="#3996FF" title-active-color="#3996FF">
           <van-tab v-for="(item,i) in titleList" :key="i" :title="item.name">
             <div class="assistant_list" v-for="(dom,index) in lottypeList" :key="index">

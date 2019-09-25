@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-if="info">
-        <a :href="banner_url" target="_blank" v-show="false" id="banner_detail">1</a>
+        <a :href="banner_url"  v-show="false" id="banner_detail">1</a>
         <title-bar :title_name="info.name" />
         <div class="assistant_list">
             <img :src="info.icon" alt="">
